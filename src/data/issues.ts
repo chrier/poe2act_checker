@@ -2,6 +2,21 @@ import type { IssueItem } from '../types'
 
 export const issueItems: IssueItem[] = [
   {
+    id: 'youtube-chris-wilson-jonathan-rogers-poe2-interview',
+    category: '개발 인터뷰',
+    title: 'Chris Wilson과 Jonathan Rogers의 POE2 개발·1.0 일정 인터뷰',
+    quote:
+      '“0.5.0이 마지막 릴리스가 될 것이고, 또 다른 리그를 만들면 1.0이 더 뒤로 밀리기 때문에 이제 게임을 끝내는 쪽으로 가야 했습니다.”',
+    summary:
+      'Chris Wilson이 Jonathan Rogers와 POE2 개발 상황을 인터뷰한 영상입니다. Jonathan은 0.5.0이 거대한 엔드게임 개선 패치가 된 이유, 0.4.0에서 밀린 작업이 0.5.0에 합쳐진 배경, Early Access가 원래 예상보다 길어지면서 라이브 서비스와 베타 테스트를 동시에 운영해야 했던 어려움을 설명합니다. 특히 0.5.0 이후 별도 0.6.0 없이 1.0 완성에 집중하려는 이유로, 새 리그를 한 번 더 만들면 캠페인 Act 5·6과 정식 출시 준비가 더 늦어지기 때문이라고 말합니다. 후반부에서는 고정 출시일과 스코프 조절, 빠른 출시 cadence, 리그 시뮬레이터/프로토타이핑, ExileCon 준비, POE2의 접근성 방향과 신규 유저 진입점에 대한 생각도 다룹니다.',
+    sourceName: 'Chris Wilson YouTube',
+    sourceUrl: 'https://www.youtube.com/watch?v=M0PhEFcIkg4',
+    sourceType: 'youtube',
+    videoEmbedUrl: 'https://www.youtube.com/embed/M0PhEFcIkg4',
+    status: '확인 필요',
+    tags: ['Chris Wilson', 'Jonathan Rogers', '0.5.0', '1.0', 'Early Access', '엔드게임', '개발 인터뷰'],
+  },
+  {
     id: 'dcinside-paid-build-guide-debate',
     category: '커뮤니티 논쟁',
     title: 'POE2 유료 멤버십 빌드 가이드 공개 논쟁 정리',
