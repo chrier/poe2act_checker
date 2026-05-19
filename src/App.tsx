@@ -7,6 +7,8 @@ import type { IssueItem } from './types'
 const STORAGE_KEY = 'poe2act_checker.completed_steps'
 const UPDATE_TIP_PREFIX = '[0.5 동선 개선]'
 const WEAPON_TIP_PREFIX = '[무기 제작]'
+const POE2_LAUNCH_AT = new Date('2026-05-30T05:00:00+09:00').getTime()
+const DAUM_POE2_URL = 'https://pathofexile2.game.daum.net/main'
 
 function readCompletedSteps() {
   const raw = window.localStorage.getItem(STORAGE_KEY)
@@ -18,6 +20,23 @@ function readCompletedSteps() {
   } catch {
     return new Set<string>()
   }
+}
+
+function formatLaunchRemaining(now: number) {
+  const remaining = POE2_LAUNCH_AT - now
+
+  if (remaining <= 0) {
+    return '오픈됨'
+  }
+
+  const totalSeconds = Math.floor(remaining / 1000)
+  const days = Math.floor(totalSeconds / 86400)
+  const hours = Math.floor((totalSeconds % 86400) / 3600)
+  const minutes = Math.floor((totalSeconds % 3600) / 60)
+  const seconds = totalSeconds % 60
+  const two = (value: number) => String(value).padStart(2, '0')
+
+  return `${days}일 ${two(hours)}:${two(minutes)}:${two(seconds)}`
 }
 
 function renderIssueSummary(issue: IssueItem) {
@@ -57,6 +76,7 @@ function App() {
   const [activeAct, setActiveAct] = useState(actGuides[0].act)
   const [activeView, setActiveView] = useState<'checklist' | 'issues'>('checklist')
   const [completedSteps, setCompletedSteps] = useState<Set<string>>(() => readCompletedSteps())
+  const [now, setNow] = useState(() => Date.now())
 
   const currentGuide = actGuides.find((guide) => guide.act === activeAct) ?? actGuides[0]
   const completedCount = currentGuide.steps.filter((step) => completedSteps.has(step.id)).length
@@ -70,6 +90,11 @@ function App() {
   useEffect(() => {
     window.localStorage.setItem(STORAGE_KEY, JSON.stringify([...completedSteps]))
   }, [completedSteps])
+
+  useEffect(() => {
+    const timer = window.setInterval(() => setNow(Date.now()), 1000)
+    return () => window.clearInterval(timer)
+  }, [])
 
   function toggleStep(stepId: string) {
     setCompletedSteps((previous) => {
@@ -100,8 +125,23 @@ function App() {
             <h1>poe2act_checker</h1>
             <p className="launch-note">0.5.0 한국시간 5월 30일 오전 5시 오픈 · 잠컨 추천 3시 기상</p>
           </div>
-          <div className="header-meta">
-            <p className="eyebrow">Path of Exile 2 Act Route</p>
+          <div className="top-action-panel" aria-label="POE2 바로가기와 오픈 카운트다운">
+            <div className="launch-countdown">
+              <span>0.5.0 오픈까지</span>
+              <strong>{formatLaunchRemaining(now)}</strong>
+            </div>
+            <div className="top-action-buttons">
+              <a className="daum-home-link" href={DAUM_POE2_URL} rel="noreferrer" target="_blank">
+                Daum POE2
+              </a>
+              <button
+                className={activeView === 'issues' ? 'issue-tab active' : 'issue-tab'}
+                onClick={() => setActiveView('issues')}
+                type="button"
+              >
+                POE2 이슈
+              </button>
+            </div>
           </div>
         </div>
       </header>
@@ -120,13 +160,6 @@ function App() {
             {guide.title}
           </button>
         ))}
-        <button
-          className={activeView === 'issues' ? 'issue-tab active' : 'issue-tab'}
-          onClick={() => setActiveView('issues')}
-          type="button"
-        >
-          POE2 이슈
-        </button>
       </nav>
 
       {activeView === 'checklist' ? (
