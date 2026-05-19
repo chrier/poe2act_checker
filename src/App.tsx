@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import './App.css'
 import { actGuides } from './data/acts'
 import { issueItems } from './data/issues'
+import type { IssueItem } from './types'
 
 const STORAGE_KEY = 'poe2act_checker.completed_steps'
 const UPDATE_TIP_PREFIX = '[0.5 동선 개선]'
@@ -17,6 +18,39 @@ function readCompletedSteps() {
   } catch {
     return new Set<string>()
   }
+}
+
+function renderIssueSummary(issue: IssueItem) {
+  if (!issue.summaryMarkdown) {
+    return <p className="issue-summary">{issue.summary}</p>
+  }
+
+  const blocks = issue.summaryMarkdown
+    .trim()
+    .split(/\n(?=## )/)
+    .map((block) => block.trim())
+    .filter(Boolean)
+
+  return (
+    <div className="issue-markdown-summary" aria-label="중점 내용">
+      {blocks.map((block) => {
+        const lines = block.split('\n').map((line) => line.trim()).filter(Boolean)
+        const title = lines[0].replace(/^##\s+/, '')
+        const items = lines.slice(1).map((line) => line.replace(/^-\s+/, ''))
+
+        return (
+          <section className="issue-markdown-section" key={title}>
+            <h4>{title}</h4>
+            <ul>
+              {items.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          </section>
+        )
+      })}
+    </div>
+  )
 }
 
 function App() {
@@ -245,7 +279,7 @@ function App() {
                   )}
 
                   <blockquote>{issue.quote}</blockquote>
-                  <p className="issue-summary">{issue.summary}</p>
+                  {renderIssueSummary(issue)}
 
                   {issue.tags && issue.tags.length > 0 && (
                     <div className="issue-tags" aria-label="태그">

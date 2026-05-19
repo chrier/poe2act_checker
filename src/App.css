@@ -661,6 +661,47 @@ h1 {
   color: #202326;
 }
 
+.issue-markdown-summary {
+  display: grid;
+  gap: 12px;
+}
+
+.issue-markdown-section {
+  background: #ffffff;
+  border: 1px solid #d6d6d2;
+  border-radius: 12px;
+  padding: 14px 16px;
+}
+
+.issue-markdown-section h4 {
+  align-items: center;
+  color: #181b1f;
+  display: flex;
+  font-size: 18px;
+  gap: 8px;
+  line-height: 1.25;
+  margin: 0 0 10px;
+}
+
+.issue-markdown-section h4::before {
+  color: #7d8287;
+  content: '✦';
+  flex: 0 0 auto;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 0.78em;
+}
+
+.issue-markdown-section ul {
+  display: grid;
+  gap: 7px;
+  margin: 0;
+  padding-left: 22px;
+}
+
+.issue-markdown-section li {
+  color: #2b2f33;
+}
+
 .issue-tags {
   display: flex;
   flex-wrap: wrap;

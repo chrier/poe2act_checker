@@ -20,6 +20,7 @@ export type IssueItem = {
   title: string
   quote: string
   summary: string
+  summaryMarkdown?: string
   sourceName: string
   sourceUrl: string
   sourceType?: 'youtube' | 'article'
