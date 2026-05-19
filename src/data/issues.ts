@@ -2,6 +2,36 @@ import type { IssueItem } from '../types'
 
 export const issueItems: IssueItem[] = [
   {
+    id: 'youtube-spirit-walker-ascendancy-showcase',
+    category: '전직 클래스',
+    title: '헌트리스 전직 Spirit Walker 쇼케이스',
+    quote:
+      '“이 전직 클래스는 혼백의 세 가지 위상을 중심에 두고 있습니다. 혈기, 원시, 야생이죠.”',
+    summary:
+      'Path of Exile 공식 영상에서 고대의 귀환에 추가되는 헌트리스 전직 Spirit Walker를 상세 소개했습니다. 핵심은 수사슴을 활용하는 혈기 경로, 올빼미 깃털로 투사체를 강화하는 원시 경로, 곰 반려수를 부르는 야생 경로입니다. 세 위상을 모두 강화하는 신성한 합일, 소환수 빌드용 우상 숭배, 보스까지 길들일 수 있는 자연의 질서가 주요 포인트로 소개됩니다. 후반부에서는 돌개바람과 투사체를 결합한 폭풍인도자 빌드, 반려수 제한을 크게 완화하는 숲의 제웅을 활용한 동물원 사육사 빌드 예시도 보여줍니다.',
+    sourceName: 'Path of Exile YouTube',
+    sourceUrl: 'https://www.youtube.com/watch?v=86MS6GHBAOg',
+    sourceType: 'youtube',
+    videoEmbedUrl: 'https://www.youtube.com/embed/86MS6GHBAOg',
+    status: '확인 필요',
+    tags: ['Spirit Walker', '헌트리스', '전직 클래스', '고대의 귀환', '반려수', '투사체', '빌드 예시'],
+  },
+  {
+    id: 'youtube-dusk-salvation-grenade-launchers',
+    category: '고유 아이템',
+    title: '해질녘과 구원, 신규 방패·유탄 발사기 고유 아이템 공개',
+    quote:
+      '“솔직히 이건 석궁이라고 할 수도 없습니다. 사실 이 고유 아이템을 위해 완전히 새로운 기본 유형을 만들었습니다.”',
+    summary:
+      'Path of Exile 공식 영상에서 고대의 귀환에 추가되는 엔드게임 고유 아이템 해질녘과 구원을 소개했습니다. 해질녘은 균열 군주 툴의 방패로, 방패를 던진 뒤 다시 사용하면 방패 위치로 순간이동해 지면을 강타하는 방식의 플레이를 제공합니다. 구원은 일반 탄약 스킬 대신 다양한 유탄을 활용하는 트라탄 계열 무기로, 충분히 전투를 이어가면 유탄 스킬의 재사용 대기시간을 무시하고 발사 속도를 크게 높이는 폭발 중심 플레이를 지원합니다. 영상은 구원이 사실상 유탄 발사기용 새로운 기본 유형을 여는 아이템이라고 설명합니다.',
+    sourceName: 'Path of Exile YouTube',
+    sourceUrl: 'https://www.youtube.com/watch?v=jsp5NFH5714',
+    sourceType: 'youtube',
+    videoEmbedUrl: 'https://www.youtube.com/embed/jsp5NFH5714',
+    status: '확인 필요',
+    tags: ['고대의 귀환', '해질녘', '구원', '고유 아이템', '유탄 발사기', '방패', '엔드게임'],
+  },
+  {
     id: 'youtube-chris-wilson-jonathan-rogers-poe2-interview',
     category: '개발 인터뷰',
     title: 'Chris Wilson과 Jonathan Rogers의 POE2 개발·1.0 일정 인터뷰',

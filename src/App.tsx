@@ -214,15 +214,6 @@ function App() {
         </>
       ) : (
         <section className="issue-page" aria-label="POE2 이슈">
-          <div className="issue-hero">
-            <p className="eyebrow">POE2 Issue Board</p>
-            <h2>POE2 이슈</h2>
-            <p>
-              패치, 빌드 메타, 액트 동선, 보상 누락처럼 체크리스트에 반영할 만한 글을
-              짧은 인용과 요약, 원문 링크 중심으로 모아두는 페이지입니다.
-            </p>
-          </div>
-
           <div className="issue-list">
             {issueItems.filter((issue) => !issue.hidden).map((issue) => (
               <article className="issue-card" key={issue.id}>
