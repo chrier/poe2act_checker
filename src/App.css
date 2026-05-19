@@ -123,19 +123,32 @@
   margin-bottom: 14px;
 }
 
+.header-title-row {
+  align-items: flex-end;
+  display: flex;
+  gap: 18px;
+}
+
+.header-meta {
+  display: grid;
+  gap: 4px;
+  margin-bottom: 7px;
+  min-width: 0;
+}
+
 .eyebrow {
   color: var(--accent);
   font-size: 13px;
   font-weight: 700;
   letter-spacing: 0.12em;
-  margin: 0 0 8px;
+  margin: 0;
   text-transform: uppercase;
 }
 
 h1 {
   font-size: clamp(32px, 6vw, 54px);
   line-height: 1;
-  margin: 0 0 8px;
+  margin: 0;
 }
 
 .description {
@@ -633,6 +646,17 @@ h1 {
 @media (max-width: 640px) {
   .app-shell {
     padding-inline: 12px;
+  }
+
+  .header-title-row {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .header-meta {
+    gap: 2px;
+    margin-bottom: 0;
   }
 
   .progress-card > .progress-summary {

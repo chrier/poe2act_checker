@@ -61,11 +61,15 @@ function App() {
   return (
     <main className={`app-shell ${activeView === 'issues' ? 'theme-issues' : `theme-act-${currentGuide.act}`}`}>
       <header className="app-header">
-        <p className="eyebrow">Path of Exile 2 Act Route</p>
-        <h1>poe2act_checker</h1>
-        <p className="description">
-          액트 진행 순서대로 주요 보상과 짧은 팁만 확인하는 체크리스트입니다.
-        </p>
+        <div className="header-title-row">
+          <h1>poe2act_checker</h1>
+          <div className="header-meta">
+            <p className="eyebrow">Path of Exile 2 Act Route</p>
+            <p className="description">
+              액트 진행 순서대로 주요 보상과 짧은 팁만 확인하는 체크리스트입니다.
+            </p>
+          </div>
+        </div>
       </header>
 
       <nav className="act-tabs" aria-label="페이지 및 Act 선택">
