@@ -285,6 +285,39 @@ h1 {
   color: #15181c;
 }
 
+.scroll-top-button {
+  align-items: center;
+  background:
+    radial-gradient(circle at 28% 20%, rgba(255, 255, 255, 0.86), transparent 24%),
+    linear-gradient(135deg, #f4f3ef 0%, #bec3c9 100%);
+  border: 1px solid rgba(255, 255, 255, 0.82);
+  border-radius: 999px;
+  bottom: 22px;
+  box-shadow:
+    0 0 0 1px rgba(20, 22, 24, 0.5),
+    0 8px 22px rgba(0, 0, 0, 0.32);
+  color: #171a1d;
+  cursor: pointer;
+  display: inline-flex;
+  font-size: 26px;
+  font-weight: 950;
+  height: 48px;
+  justify-content: center;
+  line-height: 1;
+  position: fixed;
+  right: 22px;
+  transition: transform 160ms ease, box-shadow 160ms ease;
+  width: 48px;
+  z-index: 30;
+}
+
+.scroll-top-button:hover {
+  box-shadow:
+    0 0 0 1px rgba(20, 22, 24, 0.58),
+    0 10px 26px rgba(0, 0, 0, 0.38);
+  transform: translateY(-2px);
+}
+
 .progress-card {
   background: linear-gradient(135deg, var(--panel), var(--panel-2));
   border: 1px solid var(--border);
@@ -579,6 +612,103 @@ h1 {
   max-width: 760px;
 }
 
+.issue-controls {
+  background: rgba(16, 18, 20, 0.28);
+  border: 1px solid color-mix(in srgb, var(--border) 68%, transparent);
+  border-radius: 18px;
+  display: grid;
+  gap: 12px;
+  margin-bottom: 14px;
+  padding: 12px;
+}
+
+.issue-subtabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.issue-subtabs button {
+  align-items: center;
+  background: rgba(12, 14, 16, 0.54);
+  border: 1px solid color-mix(in srgb, var(--border) 74%, transparent);
+  border-radius: 999px;
+  color: var(--muted);
+  cursor: pointer;
+  display: inline-flex;
+  font-weight: 800;
+  gap: 7px;
+  padding: 8px 13px;
+  transition: background 160ms ease, border-color 160ms ease, color 160ms ease;
+}
+
+.issue-subtabs button.active {
+  background: #f4f3ef;
+  border-color: #ffffff;
+  color: #171a1d;
+}
+
+.issue-subtabs button strong {
+  align-items: center;
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 999px;
+  display: inline-flex;
+  font-size: 12px;
+  justify-content: center;
+  min-width: 22px;
+  padding: 2px 6px;
+}
+
+.issue-subtabs button.active strong {
+  background: #25282c;
+  color: #ffffff;
+}
+
+.issue-search {
+  align-items: center;
+  display: flex;
+  gap: 10px;
+}
+
+.issue-search span {
+  color: var(--muted);
+  flex: 0 0 auto;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.issue-search input {
+  background: #f4f3ef;
+  border: 1px solid #ffffff;
+  border-radius: 999px;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.12);
+  color: #15181c;
+  flex: 1 1 auto;
+  font: inherit;
+  min-width: 0;
+  padding: 10px 14px;
+}
+
+.issue-empty-state {
+  background: rgba(16, 18, 20, 0.42);
+  border: 1px dashed color-mix(in srgb, var(--border) 82%, transparent);
+  border-radius: 18px;
+  color: var(--muted);
+  display: grid;
+  gap: 6px;
+  padding: 22px;
+  text-align: center;
+}
+
+.issue-empty-state strong {
+  color: var(--text);
+  font-size: 18px;
+}
+
+.issue-empty-state p {
+  margin: 0;
+}
+
 .issue-list {
   display: grid;
   gap: 14px;
@@ -799,8 +929,21 @@ h1 {
   color: var(--muted);
   display: flex;
   gap: 12px;
-  justify-content: flex-start;
+  justify-content: space-between;
   padding-top: 12px;
+}
+
+.issue-number {
+  background: rgba(244, 243, 239, 0.08);
+  border: 1px solid color-mix(in srgb, var(--border) 76%, transparent);
+  border-radius: 999px;
+  color: var(--text);
+  flex: 0 0 auto;
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  padding: 5px 10px;
 }
 
 @media (max-width: 640px) {
@@ -838,6 +981,19 @@ h1 {
 
   .top-action-buttons {
     justify-content: flex-start;
+  }
+
+  .issue-search {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .scroll-top-button {
+    bottom: 14px;
+    font-size: 22px;
+    height: 42px;
+    right: 14px;
+    width: 42px;
   }
 
   .progress-card > .progress-summary {

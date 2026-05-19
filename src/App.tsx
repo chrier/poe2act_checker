@@ -2,13 +2,14 @@ import { useEffect, useMemo, useState } from 'react'
 import './App.css'
 import { actGuides } from './data/acts'
 import { issueItems } from './data/issues'
-import type { IssueItem } from './types'
+import type { IssueItem, IssueTab } from './types'
 
 const STORAGE_KEY = 'poe2act_checker.completed_steps'
 const UPDATE_TIP_PREFIX = '[0.5 동선 개선]'
 const WEAPON_TIP_PREFIX = '[무기 제작]'
 const POE2_LAUNCH_AT = new Date('2026-05-30T05:00:00+09:00').getTime()
 const DAUM_POE2_URL = 'https://pathofexile2.game.daum.net/main'
+const ISSUE_TABS: IssueTab[] = ['전체', '공식', '커뮤니티', '빌드', '도구', '이슈', '잡똥글']
 
 function readCompletedSteps() {
   const raw = window.localStorage.getItem(STORAGE_KEY)
@@ -37,6 +38,27 @@ function formatLaunchRemaining(now: number) {
   const two = (value: number) => String(value).padStart(2, '0')
 
   return `${days}일 ${two(hours)}:${two(minutes)}:${two(seconds)}`
+}
+
+function issueMatchesSearch(issue: IssueItem, search: string) {
+  const normalizedSearch = search.trim().toLocaleLowerCase()
+  if (!normalizedSearch) return true
+
+  const searchableText = [
+    issue.category,
+    issue.title,
+    issue.quote,
+    issue.summary,
+    issue.summaryMarkdown,
+    issue.sourceName,
+    issue.publishedAt,
+    ...(issue.tags ?? []),
+  ]
+    .filter(Boolean)
+    .join('\n')
+    .toLocaleLowerCase()
+
+  return searchableText.includes(normalizedSearch)
 }
 
 function renderIssueSummary(issue: IssueItem) {
@@ -75,12 +97,33 @@ function renderIssueSummary(issue: IssueItem) {
 function App() {
   const [activeAct, setActiveAct] = useState(actGuides[0].act)
   const [activeView, setActiveView] = useState<'checklist' | 'issues'>('checklist')
+  const [activeIssueTab, setActiveIssueTab] = useState<IssueTab>('전체')
+  const [issueSearch, setIssueSearch] = useState('')
   const [completedSteps, setCompletedSteps] = useState<Set<string>>(() => readCompletedSteps())
   const [now, setNow] = useState(() => Date.now())
 
   const currentGuide = actGuides.find((guide) => guide.act === activeAct) ?? actGuides[0]
   const completedCount = currentGuide.steps.filter((step) => completedSteps.has(step.id)).length
   const progressPercent = Math.round((completedCount / currentGuide.steps.length) * 100)
+  const visibleIssueItems = useMemo(() => issueItems.filter((issue) => !issue.hidden), [])
+  const issueTabCounts = useMemo(
+    () =>
+      ISSUE_TABS.reduce<Record<IssueTab, number>>(
+        (counts, tab) => ({
+          ...counts,
+          [tab]: tab === '전체' ? visibleIssueItems.length : visibleIssueItems.filter((issue) => issue.issueTab === tab).length,
+        }),
+        { 전체: 0, 공식: 0, 커뮤니티: 0, 빌드: 0, 도구: 0, 이슈: 0, 잡똥글: 0 },
+      ),
+    [visibleIssueItems],
+  )
+  const filteredIssueItems = useMemo(
+    () =>
+      visibleIssueItems.filter(
+        (issue) => (activeIssueTab === '전체' || issue.issueTab === activeIssueTab) && issueMatchesSearch(issue, issueSearch),
+      ),
+    [activeIssueTab, issueSearch, visibleIssueItems],
+  )
 
   const nextStep = useMemo(
     () => currentGuide.steps.find((step) => !completedSteps.has(step.id)),
@@ -285,9 +328,42 @@ function App() {
         </>
       ) : (
         <section className="issue-page" aria-label="POE2 이슈">
-          <div className="issue-list">
-            {issueItems.filter((issue) => !issue.hidden).map((issue) => (
-              <article className="issue-card" key={issue.id}>
+          <div className="issue-controls" aria-label="POE2 이슈 필터와 검색">
+            <div className="issue-subtabs" role="tablist" aria-label="이슈 분류">
+              {ISSUE_TABS.map((tab) => (
+                <button
+                  aria-selected={activeIssueTab === tab}
+                  className={activeIssueTab === tab ? 'active' : ''}
+                  key={tab}
+                  onClick={() => setActiveIssueTab(tab)}
+                  role="tab"
+                  type="button"
+                >
+                  <span>{tab}</span>
+                  <strong>{issueTabCounts[tab]}</strong>
+                </button>
+              ))}
+            </div>
+            <label className="issue-search">
+              <span>본문 검색</span>
+              <input
+                onChange={(event) => setIssueSearch(event.target.value)}
+                placeholder="제목, 본문, 태그 검색"
+                type="search"
+                value={issueSearch}
+              />
+            </label>
+          </div>
+
+          {filteredIssueItems.length === 0 ? (
+            <div className="issue-empty-state">
+              <strong>표시할 글이 없습니다.</strong>
+              <p>다른 하위 탭을 선택하거나 검색어를 지워보세요.</p>
+            </div>
+          ) : (
+            <div className="issue-list">
+              {filteredIssueItems.map((issue) => (
+                <article className="issue-card" key={issue.id}>
                 <div className="issue-card-header">
                   <div>
                     <span className="issue-category">{issue.category}</span>
@@ -328,12 +404,23 @@ function App() {
 
                 <div className="issue-source-row">
                   <span>{issue.publishedAt ? `${issue.publishedAt} · ` : ''}{issue.sourceName}</span>
+                  <span className="issue-number">#{String(issue.issueNumber).padStart(3, '0')}</span>
                 </div>
               </article>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
         </section>
-      )}
+)}
+
+      <button
+        aria-label="최상단으로 이동"
+        className="scroll-top-button"
+        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+        type="button"
+      >
+        ↑
+      </button>
     </main>
   )
 }

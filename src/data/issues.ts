@@ -3,7 +3,9 @@ import type { IssueItem } from '../types'
 export const issueItems: IssueItem[] = [
   {
     id: 'youtube-poe2-integrated-build-planner',
+    issueNumber: 1,
     category: '게임 시스템',
+    issueTab: '공식',
     title: 'POE2 클라이언트 내장 빌드 가이드·빌드 플래너 기능 공개',
     quote:
       '“그래서 게임에 빌드 가이드를 통합하기로 했습니다.”',
@@ -31,8 +33,10 @@ export const issueItems: IssueItem[] = [
   },
   {
     id: 'dcinside-poe-unofficial-launcher-release',
+    issueNumber: 2,
     category: '커뮤니티 도구',
-    title: 'PoE & POE2 비공식 런처 릴리즈 및 패치 오류 대응 도구 정리',
+    issueTab: '도구',
+    title: 'PoE & PoE2 Unofficial Launcher 릴리즈',
     quote:
       '“기존에 개발했던 두개의 툴을 통합했어.”',
     summary:
@@ -59,7 +63,9 @@ export const issueItems: IssueItem[] = [
   },
   {
     id: 'youtube-reworked-uniques-reverie-hollow-mask',
+    issueNumber: 3,
     category: '고유 아이템',
+    issueTab: '공식',
     title: '몽상과 텅 빈 가면, 야생림 테마 재작업 고유 아이템 공개',
     quote:
       '“친구들과 함께 플레이할 때는 두 개를 다 사용해도 좋을 겁니다. 함께 사용하면 강력한 연계로 아군들을 지원할 수 있거든요.”',
@@ -86,7 +92,9 @@ export const issueItems: IssueItem[] = [
   },
   {
     id: 'youtube-spirit-walker-ascendancy-showcase',
+    issueNumber: 4,
     category: '전직 클래스',
+    issueTab: '공식',
     title: '헌트리스 전직 Spirit Walker 쇼케이스',
     quote:
       '“이 전직 클래스는 혼백의 세 가지 위상을 중심에 두고 있습니다. 혈기, 원시, 야생이죠.”',
@@ -110,7 +118,9 @@ export const issueItems: IssueItem[] = [
   },
   {
     id: 'youtube-dusk-salvation-grenade-launchers',
+    issueNumber: 5,
     category: '고유 아이템',
+    issueTab: '공식',
     title: '해질녘과 구원, 신규 방패·유탄 발사기 고유 아이템 공개',
     quote:
       '“솔직히 이건 석궁이라고 할 수도 없습니다. 사실 이 고유 아이템을 위해 완전히 새로운 기본 유형을 만들었습니다.”',
@@ -134,7 +144,9 @@ export const issueItems: IssueItem[] = [
   },
   {
     id: 'youtube-chris-wilson-jonathan-rogers-poe2-interview',
+    issueNumber: 6,
     category: '개발 인터뷰',
+    issueTab: '이슈',
     title: 'Chris Wilson과 Jonathan Rogers의 POE2 개발·1.0 일정 인터뷰',
     quote:
       '“0.5.0이 마지막 릴리스가 될 것이고, 또 다른 리그를 만들면 1.0이 더 뒤로 밀리기 때문에 이제 게임을 끝내는 쪽으로 가야 했습니다.”',
@@ -158,7 +170,9 @@ export const issueItems: IssueItem[] = [
   },
   {
     id: 'dcinside-paid-build-guide-debate',
+    issueNumber: 7,
     category: '커뮤니티 논쟁',
+    issueTab: '이슈',
     title: 'POE2 유료 멤버십 빌드 가이드 공개 논쟁 정리',
     quote:
       '“빌드 가이드를 만드는 건 영상 제작과 같아서 시간이 꽤 걸리고, Paywall 뒤에 두는 게 본질적으로 잘못되었다고 생각하지 않는다.”',
@@ -182,7 +196,9 @@ export const issueItems: IssueItem[] = [
   },
   {
     id: 'youtube-auspex-facebreaker-unique-items',
+    issueNumber: 8,
     category: '고유 아이템',
+    issueTab: '공식',
     title: 'The Auspex와 Facebreaker, 고대의 귀환 신규 고유 아이템 공개',
     quote:
       '“이 장갑을 장착하고 손이 비어 있으면 주먹만으로 모든 철퇴 스킬을 사용할 수 있습니다.”',
@@ -208,7 +224,9 @@ export const issueItems: IssueItem[] = [
   },
   {
     id: 'issue-page-guide',
+    issueNumber: 9,
     category: '운영 메모',
+    issueTab: '이슈',
     title: 'POE2 이슈 탭 사용 방식',
     quote: '외부 글은 전문 복사 대신 핵심 문장만 짧게 인용하고, 요약과 원문 링크를 함께 둡니다.',
     summary:

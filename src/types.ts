@@ -13,10 +13,13 @@ export type ActGuide = {
 }
 
 export type IssueStatus = '확인 필요' | '반영 예정' | '반영 완료' | '보류'
+export type IssueTab = '전체' | '공식' | '커뮤니티' | '빌드' | '도구' | '이슈' | '잡똥글'
 
 export type IssueItem = {
   id: string
+  issueNumber: number
   category: string
+  issueTab: IssueTab
   title: string
   quote: string
   summary: string
