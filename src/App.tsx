@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import './App.css'
 import { actGuides } from './data/acts'
+import { issueItems } from './data/issues'
 
 const STORAGE_KEY = 'poe2act_checker.completed_steps'
 const UPDATE_TIP_PREFIX = '[0.5 동선 개선]'
@@ -20,6 +21,7 @@ function readCompletedSteps() {
 
 function App() {
   const [activeAct, setActiveAct] = useState(actGuides[0].act)
+  const [activeView, setActiveView] = useState<'checklist' | 'issues'>('checklist')
   const [completedSteps, setCompletedSteps] = useState<Set<string>>(() => readCompletedSteps())
 
   const currentGuide = actGuides.find((guide) => guide.act === activeAct) ?? actGuides[0]
@@ -57,7 +59,7 @@ function App() {
   }
 
   return (
-    <main className={`app-shell theme-act-${currentGuide.act}`}>
+    <main className={`app-shell ${activeView === 'issues' ? 'theme-issues' : `theme-act-${currentGuide.act}`}`}>
       <header className="app-header">
         <p className="eyebrow">Path of Exile 2 Act Route</p>
         <h1>poe2act_checker</h1>
@@ -66,20 +68,32 @@ function App() {
         </p>
       </header>
 
-      <nav className="act-tabs" aria-label="Act 선택">
+      <nav className="act-tabs" aria-label="페이지 및 Act 선택">
         {actGuides.map((guide) => (
           <button
-            className={guide.act === activeAct ? 'active' : ''}
+            className={activeView === 'checklist' && guide.act === activeAct ? 'active' : ''}
             key={guide.act}
-            onClick={() => setActiveAct(guide.act)}
+            onClick={() => {
+              setActiveView('checklist')
+              setActiveAct(guide.act)
+            }}
             type="button"
           >
             {guide.title}
           </button>
         ))}
+        <button
+          className={activeView === 'issues' ? 'issue-tab active' : 'issue-tab'}
+          onClick={() => setActiveView('issues')}
+          type="button"
+        >
+          POE2 이슈
+        </button>
       </nav>
 
-      <section className="progress-card" aria-label="진행률">
+      {activeView === 'checklist' ? (
+        <>
+          <section className="progress-card" aria-label="진행률">
         <div className="progress-summary">
           <div className="progress-title-row">
             <strong>{currentGuide.title}</strong>
@@ -197,6 +211,58 @@ function App() {
           )
         })}
       </section>
+        </>
+      ) : (
+        <section className="issue-page" aria-label="POE2 이슈">
+          <div className="issue-hero">
+            <p className="eyebrow">POE2 Issue Board</p>
+            <h2>POE2 이슈</h2>
+            <p>
+              패치, 빌드 메타, 액트 동선, 보상 누락처럼 체크리스트에 반영할 만한 글을
+              짧은 인용과 요약, 원문 링크 중심으로 모아두는 페이지입니다.
+            </p>
+          </div>
+
+          <div className="issue-list">
+            {issueItems.map((issue) => (
+              <article className="issue-card" key={issue.id}>
+                <div className="issue-card-header">
+                  <div>
+                    <span className="issue-category">{issue.category}</span>
+                    <h3>{issue.title}</h3>
+                  </div>
+                  <span className="issue-status">{issue.status}</span>
+                </div>
+
+                <blockquote>{issue.quote}</blockquote>
+                <p className="issue-summary">{issue.summary}</p>
+
+                {issue.myNote && (
+                  <p className="issue-note">
+                    <strong>내 메모</strong>
+                    {issue.myNote}
+                  </p>
+                )}
+
+                {issue.tags && issue.tags.length > 0 && (
+                  <div className="issue-tags" aria-label="태그">
+                    {issue.tags.map((tag) => (
+                      <span key={tag}>{tag}</span>
+                    ))}
+                  </div>
+                )}
+
+                <div className="issue-source-row">
+                  <span>{issue.publishedAt ? `${issue.publishedAt} · ` : ''}{issue.sourceName}</span>
+                  <a href={issue.sourceUrl} rel="noreferrer" target="_blank">
+                    원문 보기
+                  </a>
+                </div>
+              </article>
+            ))}
+          </div>
+        </section>
+      )}
     </main>
   )
 }
