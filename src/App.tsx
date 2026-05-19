@@ -65,9 +65,6 @@ function App() {
           <h1>poe2act_checker</h1>
           <div className="header-meta">
             <p className="eyebrow">Path of Exile 2 Act Route</p>
-            <p className="description">
-              액트 진행 순서대로 주요 보상과 짧은 팁만 확인하는 체크리스트입니다.
-            </p>
           </div>
         </div>
       </header>

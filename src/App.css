@@ -130,8 +130,6 @@
 }
 
 .header-meta {
-  display: grid;
-  gap: 4px;
   margin-bottom: 7px;
   min-width: 0;
 }
