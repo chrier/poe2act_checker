@@ -2,6 +2,21 @@ import type { IssueItem } from '../types'
 
 export const issueItems: IssueItem[] = [
   {
+    id: 'dcinside-paid-build-guide-debate',
+    category: '커뮤니티 논쟁',
+    title: 'POE2 유료 멤버십 빌드 가이드 공개 논쟁 정리',
+    quote:
+      '“빌드 가이드를 만드는 건 영상 제작과 같아서 시간이 꽤 걸리고, Paywall 뒤에 두는 게 본질적으로 잘못되었다고 생각하지 않는다.”',
+    summary:
+      '디시인사이드 패스 오브 엑자일 갤러리 글은 Fubgun 방송에서 다뤄진 Jungroan, Guythatdies 간의 POE2 빌드 가이드 유료 멤버십 공개 논쟁을 긴 대화 형식으로 정리합니다. 핵심 쟁점은 빌드 가이드와 선공개 영상을 유료 멤버십 뒤에 두는 것이 커뮤니티의 빌드 공유·반복 개선 문화와 충돌하는지, 그리고 크리에이터가 생활비와 채널 운영을 위해 어느 정도 유료화를 선택할 수 있는지입니다. 글 후반부에서는 Fubgun이 유료화가 단기 수익은 줄 수 있어도 장기적으로 채널 성장과 커뮤니티 접근성을 해칠 수 있다고 평가하며, 전업 스트리밍 전에는 직장·알바 등 백업 플랜을 유지하는 편이 현실적이라고 조언합니다.',
+    sourceName: '디시인사이드 패스 오브 엑자일 갤러리',
+    sourceUrl: 'https://gall.dcinside.com/pathofexile/1211306',
+    sourceType: 'article',
+    status: '확인 필요',
+    publishedAt: '2026-05-18',
+    tags: ['커뮤니티', '빌드 가이드', '유료 멤버십', '크리에이터', 'Fubgun', 'Jungroan', 'Guythatdies'],
+  },
+  {
     id: 'youtube-auspex-facebreaker-unique-items',
     category: '고유 아이템',
     title: 'The Auspex와 Facebreaker, 고대의 귀환 신규 고유 아이템 공개',
