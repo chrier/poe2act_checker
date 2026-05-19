@@ -244,6 +244,108 @@ export const issueItems: IssueItem[] = [
     tags: ['마피', '호신부', '디바인', '옵션', '커뮤니티 잡글'],
   },
   {
+    id: 'arca-fulmination-wrath-sceptre-usage',
+    issueNumber: 10,
+    category: '커뮤니티 빌드 메모',
+    issueTab: '커뮤니티',
+    title: 'Ai요약,스압) 노호 달린 진노 셉터 활용도',
+    quote: '“풀미네이션 버프를 제공하는 특정 셉터는 적들이 감전되었을 때 광역 피해를 주어 화면을 효과적으로 정리할 수 있는 잠재력이 있다.”',
+    summary:
+      'Arca 패스 오브 엑자일 2 채널의 커뮤니티 정리글입니다. 원문은 YouTube 영상 내용을 AI 요약한 형태로, 노호가 붙은 진노 셉터/풀미네이션 버프를 감전 기반 광역 정리 도구로 활용하는 방법을 설명합니다. 레벨링과 초반 맵핑에서 강점이 있고, 아크·스파크 같은 연쇄 번개 스킬, 미니언, 전사, 드루이드 등 다양한 빌드 응용 가능성을 다룹니다.',
+    summaryMarkdown:
+      '## 핵심 요약\n' +
+      '- 풀미네이션 셉터는 감전된 적을 처음 공격할 때 주변 감전 적들에게 추가 광역 피해를 퍼뜨리는 방식으로 화면 정리에 도움을 줍니다.\n' +
+      '- 기본 피해 감소 페널티가 있지만 스킬 레벨, 오라 위력, 아이템 보정으로 효율을 끌어올릴 수 있다는 내용입니다.\n' +
+      '- 특히 피해가 부족한 레벨링·초반 맵핑 구간에서 가치가 높고, 충분히 원샷이 나는 후반에는 대체 셉터가 나을 수 있다고 정리합니다.\n' +
+      '## 시너지 후보\n' +
+      '- 아크, 스파크, 번개 창처럼 감전과 연쇄/확산이 쉬운 스킬과 잘 맞는다고 설명합니다.\n' +
+      '- 궁수·해골 미니언, 도약 강타/뼈 분쇄 전사, 늑대·곰 드루이드도 감전 수단만 확보하면 응용 가능성이 있다고 봅니다.\n' +
+      '- 원문에는 참고 YouTube 링크도 포함되어 있어, 실제 작동 방식은 영상과 함께 재확인하는 편이 좋습니다.',
+    sourceName: 'Arca 패스 오브 엑자일 2 채널',
+    sourceUrl: 'https://arca.live/b/poe2/170920925',
+    sourceType: 'article',
+    status: '확인 필요',
+    publishedAt: '2026-05-17 06:21:04',
+    tags: ['풀미네이션', '진노 셉터', '감전', '레벨링', '아크', '스파크', '커뮤니티'],
+  },
+  {
+    id: 'reddit-league-start-be-like',
+    issueNumber: 11,
+    category: '잡똥글',
+    issueTab: '잡똥글',
+    title: 'League start be like',
+    quote: '“Wait for the patchnotes.. after that everything will be different”',
+    summary:
+      'Reddit r/PathOfExile2의 리그 스타트 밈 글입니다. 호머가 술집에 앉아 있고 화면 곳곳에 회오리/트위스터처럼 보이는 스킬 이미지가 덮인 밈으로, 패치노트 전부터 특정 리그 스타터·스트리머 빌드가 반복적으로 언급되는 분위기를 놀리는 잡담 글입니다.',
+    summaryMarkdown:
+      '## 댓글 반응\n' +
+      '- 상위 댓글은 패치노트 전에 연습 빌드를 띄우고, GGG가 너프하면 “그래도 아직 사기”라고 말하다가 다시 너프되는 흐름을 농담으로 정리했습니다.\n' +
+      '- 다른 반응들은 “패치노트를 기다려야 한다”, “아직 뭐가 너프될지도 모르는데 리그 스타트 연습을 한다”는 식으로 메타 예측을 비꼽니다.\n' +
+      '- 일부 댓글은 결국 활 빌드를 할 것이라는 농담이나, 새 Facebreaker/무술 계열을 하겠다는 가벼운 잡담으로 이어집니다.',
+    sourceName: 'Reddit r/PathOfExile2',
+    sourceUrl: 'https://www.reddit.com/r/PathOfExile2/comments/1th652z/league_start_be_like/',
+    sourceType: 'article',
+    imageUrl: 'https://i.redd.it/tkicb4j3kz1h1.png',
+    status: '확인 필요',
+    publishedAt: '2026-05-19 00:07:17 UTC',
+    tags: ['Reddit', '리그 스타트', '밈', '트위스터', '패치노트', '댓글 반응', '잡똥글'],
+  },
+  {
+    id: 'pcgamer-return-of-the-ancients-last-major-update-before-1-0',
+    issueNumber: 12,
+    category: '출시 일정 / 개발 방향',
+    issueTab: '이슈',
+    title: "PC Gamer: Return of the Ancients는 1.0 전 마지막 대형 업데이트",
+    quote: '“I want to get this game finished. I really, really do.”',
+    summary:
+      'PC Gamer가 Jonathan Rogers 인터뷰를 바탕으로 정리한 POE2 0.5.0/Return of the Ancients 기사입니다. Rogers는 0.5.0이 올해 후반 얼리 액세스 종료와 1.0 출시 전 마지막 본격 확장팩이며, 이후에는 밸런스 업데이트나 미니 리그 정도가 있을 수 있다고 설명했습니다.',
+    summaryMarkdown:
+      '## 1.0 전 마지막 대형 업데이트\n' +
+      '- PC Gamer는 Return of the Ancients, 즉 0.5.0이 올해 후반 POE2가 얼리 액세스를 떠나기 전 마지막 proper expansion이라고 전했습니다.\n' +
+      '- Rogers는 정확한 1.0 날짜는 밝히지 않았지만, ExileCon이 열리는 11월 이후 조금 뒤가 될 것이라고 말했습니다.\n' +
+      '- 1.0 전까지 밸런스 업데이트나 미니 리그는 가능하지만, 0.5.0급 대형 확장은 없을 전망입니다.\n' +
+      '## 1.0에 포함될 내용과 빠질 수 있는 것\n' +
+      '- 1.0 업데이트에는 캠페인 마지막 두 액트와 기존 캐릭터 클래스의 모든 전직이 포함될 예정입니다.\n' +
+      '- 다만 이전에 발표된 나머지 신규 클래스 5종 중 일부만 1.0에 맞춰 들어갈 수 있고, 검 같은 신규 무기 유형도 모두 들어오지 못할 수 있다고 언급했습니다.\n' +
+      '- 개발진은 “게임을 완성하고 싶다”는 방향으로, 정규 리그 개발 리듬으로 돌아가는 것을 목표로 보고 있습니다.\n' +
+      '## 엔드게임 개편 의도\n' +
+      '- 0.5.0은 캠페인 이후의 엔드게임을 퀘스트와 보스전이 있는 더 안내된 경험으로 재구성하는 업데이트입니다.\n' +
+      '- Rogers는 현재 캠페인과 엔드게임이 별개 게임처럼 갈라지는 느낌을 줄이고, 무한 파밍에 관심 없는 플레이어에게도 만족스러운 도착점을 주려 한다고 설명했습니다.\n' +
+      '- 기사 기준 Return of the Ancients / 0.5.0 출시일은 2026년 5월 29일로 언급되었습니다.',
+    sourceName: 'PC Gamer',
+    sourceUrl: 'https://www.pcgamer.com/games/rpg/path-of-exile-2s-massive-return-of-the-ancients-expansion-will-be-its-last-major-update-before-it-leaves-early-access-later-this-year-i-want-to-get-this-game-finished-i-really-really-do/',
+    sourceType: 'article',
+    status: '확인 필요',
+    publishedAt: '2026-05-07 21:30:00 UTC',
+    tags: ['PC Gamer', 'Return of the Ancients', '0.5.0', '1.0', '얼리 액세스', 'ExileCon', '엔드게임'],
+  },
+  {
+    id: 'reddit-nerf-tier-list',
+    issueNumber: 13,
+    category: '커뮤니티 밸런스 예측',
+    issueTab: '커뮤니티',
+    title: 'Nerf Tier List',
+    quote: '“No patch notes so this chart is just a guess.”',
+    summary:
+      'Reddit r/PathOfExile2의 0.5.0 패치 전 밸런스 너프 예측 밈/티어리스트 글입니다. 이미지에는 FUBAR, FROM ORBIT, THE OL TRIPLE TAP 같은 강한 너프 단계부터 NOT NERFED, BUFFED LMAO까지 나뉘어 CoC Comet, Twisters, Rathpith, self chill, Blood Mage, high armour, CHONK, energy shield, minions 등의 운명을 농담처럼 분류했습니다.',
+    summaryMarkdown:
+      '## 티어리스트 내용\n' +
+      '- 최상단 FUBAR에는 100% reduced duration, gas grenade + incinerate, ES leech가 올라가 있습니다.\n' +
+      '- FROM ORBIT에는 CoC Comet, THE OL TRIPLE TAP에는 self chill, Rathpith, Twisters, eternal rage가 배치되어 강한 너프 후보처럼 표현됩니다.\n' +
+      '- 반대로 BUFFED LMAO에는 plants, thunderstorm shock, adorned, CHONK, energy shield, offhand sceptres, minions가 들어가 버프/생존 후보처럼 농담됩니다.\n' +
+      '## 댓글 반응\n' +
+      '- 상위 댓글은 CoC Comet이 “from orbit”보다 낮게 잡힌 것을 의아해하며, 27%의 고성능 빌드가 Comet을 쓴다는 식으로 추가 너프를 예상했습니다.\n' +
+      '- Hexblast를 0.1 때처럼 다시 살려달라는 반응, chaos 피해 정체성이 아직 애매하다는 반응도 있었습니다.\n' +
+      '- 일부는 아직 패치노트가 없으니 전부 추측이라고 선을 그었고, Chrono/Gemling/Chonk/Armour/ES 같은 항목의 실제 버프·너프 가능성을 두고 잡담이 이어졌습니다.',
+    sourceName: 'Reddit r/PathOfExile2',
+    sourceUrl: 'https://www.reddit.com/r/PathOfExile2/comments/1thfmlq/nerf_tier_list/',
+    sourceType: 'article',
+    imageUrl: 'https://redlib.perennialte.ch/preview/external-pre/L9RLhUi8QhcmyHcw8IgCmH0aBwCTIGq2PP-_N4HrPXk.png?auto=webp&s=a540cccc2e02fe5dcb7f8741f7468b2cb4e556c8',
+    status: '확인 필요',
+    publishedAt: '2026-05-19 07:35:17 UTC',
+    tags: ['Reddit', '밸런스', '너프 예측', '티어리스트', 'CoC Comet', 'Twisters', 'CHONK', '댓글 반응', '커뮤니티'],
+  },
+  {
     id: 'issue-page-guide',
     issueNumber: 999,
     category: '운영 메모',

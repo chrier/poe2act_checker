@@ -861,6 +861,21 @@ h1 {
   width: 100%;
 }
 
+.issue-image-frame {
+  background: #15181c;
+  border: 1px solid #d2d2ce;
+  border-radius: 14px;
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.16);
+  margin: 0;
+  overflow: hidden;
+}
+
+.issue-image-frame img {
+  display: block;
+  height: auto;
+  width: 100%;
+}
+
 .issue-card blockquote {
   background: #ffffff;
   border: 1px solid #d6d6d2;

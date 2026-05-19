@@ -19,7 +19,7 @@ export type IssueItem = {
   id: string
   issueNumber: number
   category: string
-  issueTab: IssueTab
+  issueTab: Exclude<IssueTab, '전체'>
   title: string
   quote: string
   summary: string
@@ -28,6 +28,7 @@ export type IssueItem = {
   sourceUrl: string
   sourceType?: 'youtube' | 'article'
   videoEmbedUrl?: string
+  imageUrl?: string
   status: IssueStatus
   publishedAt?: string
   myNote?: string

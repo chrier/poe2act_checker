@@ -50,6 +50,7 @@ function issueMatchesSearch(issue: IssueItem, search: string) {
     issue.quote,
     issue.summary,
     issue.summaryMarkdown,
+    issue.imageUrl,
     issue.sourceName,
     issue.publishedAt,
     ...(issue.tags ?? []),
@@ -59,6 +60,31 @@ function issueMatchesSearch(issue: IssueItem, search: string) {
     .toLocaleLowerCase()
 
   return searchableText.includes(normalizedSearch)
+}
+
+function getIssueSourceLabel(issue: IssueItem) {
+  const sourceText = `${issue.sourceName} ${issue.sourceUrl}`.toLocaleLowerCase()
+
+  if (issue.sourceType === 'youtube' || sourceText.includes('youtube.com') || sourceText.includes('youtu.be')) {
+    return 'Youtube'
+  }
+  if (sourceText.includes('reddit.com') || sourceText.includes('r/pathofexile2')) {
+    return 'Reddit'
+  }
+  if (sourceText.includes('dcinside.com') || sourceText.includes('디시인사이드')) {
+    return 'DCInside'
+  }
+  if (sourceText.includes('arca.live') || sourceText.includes('arca')) {
+    return 'Arca'
+  }
+  if (sourceText.includes('pcgamer.com') || sourceText.includes('pc gamer')) {
+    return 'PC Gamer'
+  }
+  if (sourceText.includes('pathofexile.com') || sourceText.includes('path of exile')) {
+    return 'Official'
+  }
+
+  return issue.sourceName
 }
 
 function renderIssueSummary(issue: IssueItem) {
@@ -375,7 +401,7 @@ function App() {
                     <h3>{issue.title}</h3>
                   </div>
                   <div className="issue-header-actions">
-                    <span className="issue-status">{issue.status}</span>
+                    <span className="issue-status">{getIssueSourceLabel(issue)}</span>
                     <a className="issue-source-link" href={issue.sourceUrl} rel="noreferrer" target="_blank">
                       <span aria-hidden="true">↗</span>
                       원문 보기
@@ -393,6 +419,12 @@ function App() {
                         title={`${issue.title} 영상`}
                       />
                     </div>
+                  )}
+
+                  {issue.imageUrl && (
+                    <figure className="issue-image-frame">
+                      <img alt={`${issue.title} 이미지`} src={issue.imageUrl} />
+                    </figure>
                   )}
 
                   <blockquote>{issue.quote}</blockquote>
