@@ -47,6 +47,15 @@ function App() {
     })
   }
 
+  function resetCurrentAct() {
+    const currentStepIds = new Set(currentGuide.steps.map((step) => step.id))
+    setCompletedSteps((previous) => {
+      const next = new Set(previous)
+      currentStepIds.forEach((stepId) => next.delete(stepId))
+      return next
+    })
+  }
+
   return (
     <main className={`app-shell theme-act-${currentGuide.act}`}>
       <header className="app-header">
@@ -71,8 +80,18 @@ function App() {
       </nav>
 
       <section className="progress-card" aria-label="진행률">
-        <div>
-          <strong>{currentGuide.title}</strong>
+        <div className="progress-summary">
+          <div className="progress-title-row">
+            <strong>{currentGuide.title}</strong>
+            <button
+              className="reset-act-button"
+              disabled={completedCount === 0}
+              onClick={resetCurrentAct}
+              type="button"
+            >
+              체크 리셋
+            </button>
+          </div>
           <span>
             {completedCount} / {currentGuide.steps.length} 완료
           </span>
@@ -110,7 +129,7 @@ function App() {
                 <span>{step.title}</span>
               </label>
 
-              <div className={hasWeaponTips ? 'step-content has-weapon-tips' : 'step-content'}>
+              <div className="step-content">
                 <aside
                   className={hasUpdateTips ? 'update-tip-box' : 'update-tip-box empty'}
                   aria-hidden={!hasUpdateTips}
@@ -157,16 +176,22 @@ function App() {
                   )}
                 </div>
 
-                {hasWeaponTips && (
-                  <aside className="weapon-tip-box" aria-label="무기 제작 팁">
-                    <h2>무기 제작</h2>
-                    <ul>
-                      {weaponTips.map((tip) => (
-                        <li key={tip}>{tip}</li>
-                      ))}
-                    </ul>
-                  </aside>
-                )}
+                <aside
+                  className={hasWeaponTips ? 'weapon-tip-box' : 'weapon-tip-box empty'}
+                  aria-hidden={!hasWeaponTips}
+                  aria-label={hasWeaponTips ? '무기 제작 팁' : undefined}
+                >
+                  {hasWeaponTips && (
+                    <>
+                      <h2>무기 제작</h2>
+                      <ul>
+                        {weaponTips.map((tip) => (
+                          <li key={tip}>{tip}</li>
+                        ))}
+                      </ul>
+                    </>
+                  )}
+                </aside>
               </div>
             </article>
           )

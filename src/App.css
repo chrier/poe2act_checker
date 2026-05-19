@@ -153,11 +153,39 @@ h1 {
   padding: 18px;
 }
 
-.progress-card > div:first-child {
+.progress-card > .progress-summary {
   align-items: center;
   display: flex;
   justify-content: space-between;
   gap: 12px;
+}
+
+.progress-title-row {
+  align-items: center;
+  display: flex;
+  gap: 10px;
+}
+
+.reset-act-button {
+  background: rgba(0, 0, 0, 0.18);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  color: var(--accent);
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 800;
+  padding: 5px 10px;
+  transition: background 160ms ease, border-color 160ms ease, color 160ms ease, opacity 160ms ease;
+}
+
+.reset-act-button:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--accent) 16%, black);
+  border-color: var(--accent);
+}
+
+.reset-act-button:disabled {
+  cursor: default;
+  opacity: 0.42;
 }
 
 .progress-card strong {
@@ -240,12 +268,8 @@ h1 {
   align-items: start;
   display: grid;
   gap: 14px;
-  grid-template-columns: minmax(180px, 0.38fr) 1fr;
+  grid-template-columns: minmax(240px, 0.32fr) minmax(320px, 1fr) minmax(240px, 0.36fr);
   padding: 0 18px 18px 18px;
-}
-
-.step-content.has-weapon-tips {
-  grid-template-columns: minmax(160px, 0.28fr) minmax(300px, 1fr) minmax(220px, 0.46fr);
 }
 
 .step-main-content {
@@ -341,6 +365,13 @@ h1 {
   padding: 12px 14px 12px 12px;
 }
 
+.weapon-tip-box.empty {
+  background: transparent;
+  border-color: transparent;
+  border-right-color: transparent;
+  padding: 0;
+}
+
 .weapon-tip-box h2 {
   align-items: center;
   color: #f0b95d;
@@ -358,7 +389,7 @@ h1 {
     padding-inline: 12px;
   }
 
-  .progress-card > div:first-child {
+  .progress-card > .progress-summary {
     align-items: flex-start;
     flex-direction: column;
   }
@@ -373,11 +404,8 @@ h1 {
     padding: 0 14px 16px 52px;
   }
 
-  .step-content.has-weapon-tips {
-    grid-template-columns: 1fr;
-  }
-
-  .update-tip-box.empty {
+  .update-tip-box.empty,
+  .weapon-tip-box.empty {
     display: none;
   }
 
