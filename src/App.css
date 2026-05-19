@@ -125,26 +125,48 @@
 
 .header-title-row {
   align-items: flex-end;
-  display: flex;
+  display: block;
   gap: 18px;
+  position: relative;
 }
 
 .header-meta {
-  margin-bottom: 13px;
+  margin-bottom: 0;
   min-width: 0;
+  position: absolute;
+  right: 0;
+  top: 34px;
 }
 
 .header-title-copy {
   display: grid;
+  flex: 1 1 auto;
   gap: 7px;
+  min-width: 0;
 }
 
 .launch-note {
-  color: var(--accent);
-  font-size: clamp(14px, 2vw, 18px);
-  font-weight: 800;
-  line-height: 1.25;
+  background:
+    radial-gradient(circle at 12% 18%, rgba(255, 255, 255, 0.9), transparent 22%),
+    linear-gradient(135deg, #fff6d7 0%, #ffd15b 42%, #ff9f1a 100%);
+  border: 2px solid #fff8d9;
+  border-radius: 999px;
+  box-shadow:
+    0 0 0 2px rgba(70, 43, 8, 0.55),
+    0 8px 20px rgba(0, 0, 0, 0.34),
+    inset 0 1px 0 rgba(255, 255, 255, 0.88);
+  box-sizing: border-box;
+  color: #241405;
+  display: inline-flex;
+  font-size: clamp(17px, 2.7vw, 25px);
+  font-weight: 950;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
   margin: 0;
+  padding: 8px 18px 9px;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.55);
+  white-space: nowrap;
+  width: fit-content;
 }
 
 .eyebrow {
@@ -749,9 +771,17 @@ h1 {
     gap: 6px;
   }
 
+  .launch-note {
+    border-radius: 16px;
+    font-size: 15px;
+    padding: 7px 12px 8px;
+    white-space: normal;
+  }
+
   .header-meta {
     gap: 2px;
     margin-bottom: 0;
+    position: static;
   }
 
   .progress-card > .progress-summary {
