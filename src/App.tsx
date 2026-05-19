@@ -223,7 +223,13 @@ function App() {
                     <span className="issue-category">{issue.category}</span>
                     <h3>{issue.title}</h3>
                   </div>
-                  <span className="issue-status">{issue.status}</span>
+                  <div className="issue-header-actions">
+                    <span className="issue-status">{issue.status}</span>
+                    <a className="issue-source-link" href={issue.sourceUrl} rel="noreferrer" target="_blank">
+                      <span aria-hidden="true">↗</span>
+                      원문 보기
+                    </a>
+                  </div>
                 </div>
 
                 <div className="issue-card-body">
@@ -252,9 +258,6 @@ function App() {
 
                 <div className="issue-source-row">
                   <span>{issue.publishedAt ? `${issue.publishedAt} · ` : ''}{issue.sourceName}</span>
-                  <a href={issue.sourceUrl} rel="noreferrer" target="_blank">
-                    원문 보기
-                  </a>
                 </div>
               </article>
             ))}

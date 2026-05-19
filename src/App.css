@@ -534,7 +534,7 @@ h1 {
 .issue-category,
 .issue-status,
 .issue-tags span,
-.issue-source-row a {
+.issue-source-link {
   border-radius: 999px;
   font-size: 12px;
   font-weight: 800;
@@ -567,6 +567,56 @@ h1 {
   color: var(--accent);
   flex: 0 0 auto;
   padding: 5px 10px;
+}
+
+.issue-header-actions {
+  align-items: flex-end;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.issue-source-link {
+  align-items: center;
+  background:
+    radial-gradient(circle at 18% 18%, rgba(255, 255, 255, 0.95), transparent 28%),
+    linear-gradient(135deg, #ffffff 0%, #eceef0 48%, #c9cdd2 100%);
+  border: 2px solid #ffffff;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.95),
+    0 0 0 1px rgba(150, 154, 158, 0.9),
+    0 10px 22px rgba(0, 0, 0, 0.28);
+  color: #101316;
+  display: inline-flex;
+  font-size: 15px;
+  gap: 6px;
+  letter-spacing: -0.01em;
+  padding: 10px 16px;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.issue-source-link span {
+  align-items: center;
+  background: #202326;
+  border-radius: 999px;
+  color: #ffffff;
+  display: inline-flex;
+  font-size: 12px;
+  height: 18px;
+  justify-content: center;
+  line-height: 1;
+  width: 18px;
+}
+
+.issue-source-link:hover {
+  background: #ffffff;
+  border-color: #ffffff;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 1),
+    0 0 0 2px rgba(214, 217, 220, 0.96),
+    0 12px 26px rgba(0, 0, 0, 0.34);
 }
 
 .issue-video-frame {
@@ -630,15 +680,8 @@ h1 {
   color: var(--muted);
   display: flex;
   gap: 12px;
-  justify-content: space-between;
+  justify-content: flex-start;
   padding-top: 12px;
-}
-
-.issue-source-row a {
-  background: var(--accent);
-  color: #10151d;
-  padding: 7px 12px;
-  text-decoration: none;
 }
 
 @media (max-width: 640px) {
