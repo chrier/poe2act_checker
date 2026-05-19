@@ -224,7 +224,7 @@ function App() {
           </div>
 
           <div className="issue-list">
-            {issueItems.map((issue) => (
+            {issueItems.filter((issue) => !issue.hidden).map((issue) => (
               <article className="issue-card" key={issue.id}>
                 <div className="issue-card-header">
                   <div>
@@ -234,23 +234,29 @@ function App() {
                   <span className="issue-status">{issue.status}</span>
                 </div>
 
-                <blockquote>{issue.quote}</blockquote>
-                <p className="issue-summary">{issue.summary}</p>
+                <div className="issue-card-body">
+                  {issue.sourceType === 'youtube' && issue.videoEmbedUrl && (
+                    <div className="issue-video-frame">
+                      <iframe
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allowFullScreen
+                        src={issue.videoEmbedUrl}
+                        title={`${issue.title} 영상`}
+                      />
+                    </div>
+                  )}
 
-                {issue.myNote && (
-                  <p className="issue-note">
-                    <strong>내 메모</strong>
-                    {issue.myNote}
-                  </p>
-                )}
+                  <blockquote>{issue.quote}</blockquote>
+                  <p className="issue-summary">{issue.summary}</p>
 
-                {issue.tags && issue.tags.length > 0 && (
-                  <div className="issue-tags" aria-label="태그">
-                    {issue.tags.map((tag) => (
-                      <span key={tag}>{tag}</span>
-                    ))}
-                  </div>
-                )}
+                  {issue.tags && issue.tags.length > 0 && (
+                    <div className="issue-tags" aria-label="태그">
+                      {issue.tags.map((tag) => (
+                        <span key={tag}>{tag}</span>
+                      ))}
+                    </div>
+                  )}
+                </div>
 
                 <div className="issue-source-row">
                   <span>{issue.publishedAt ? `${issue.publishedAt} · ` : ''}{issue.sourceName}</span>

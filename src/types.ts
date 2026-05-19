@@ -22,8 +22,11 @@ export type IssueItem = {
   summary: string
   sourceName: string
   sourceUrl: string
+  sourceType?: 'youtube' | 'article'
+  videoEmbedUrl?: string
   status: IssueStatus
   publishedAt?: string
   myNote?: string
   tags?: string[]
+  hidden?: boolean
 }
