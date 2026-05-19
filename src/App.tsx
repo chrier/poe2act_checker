@@ -96,7 +96,10 @@ function App() {
     <main className={`app-shell ${activeView === 'issues' ? 'theme-issues' : `theme-act-${currentGuide.act}`}`}>
       <header className="app-header">
         <div className="header-title-row">
-          <h1>poe2act_checker</h1>
+          <div className="header-title-copy">
+            <h1>poe2act_checker</h1>
+            <p className="launch-note">0.5.0 한국시간 5월 30일 오전 5시 오픈 · 잠컨 추천 3시 기상</p>
+          </div>
           <div className="header-meta">
             <p className="eyebrow">Path of Exile 2 Act Route</p>
           </div>

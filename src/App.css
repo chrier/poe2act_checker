@@ -130,8 +130,21 @@
 }
 
 .header-meta {
-  margin-bottom: 7px;
+  margin-bottom: 13px;
   min-width: 0;
+}
+
+.header-title-copy {
+  display: grid;
+  gap: 7px;
+}
+
+.launch-note {
+  color: var(--accent);
+  font-size: clamp(14px, 2vw, 18px);
+  font-weight: 800;
+  line-height: 1.25;
+  margin: 0;
 }
 
 .eyebrow {
