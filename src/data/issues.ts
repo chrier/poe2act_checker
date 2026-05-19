@@ -223,8 +223,29 @@ export const issueItems: IssueItem[] = [
     tags: ['Return of the Ancients', 'The Auspex', 'Facebreaker', '고유 아이템', '빌드 메타'],
   },
   {
-    id: 'issue-page-guide',
+    id: 'dcinside-mageblood-aldur-warrior-charm-mod',
     issueNumber: 9,
+    category: '잡똥글',
+    issueTab: '잡똥글',
+    title: '디바인 소모 마피 옵션 아직도 모르겠어??',
+    quote: '“장착된 호신부 (2-4)개가 알두르의 10293번째 전사에 의해 보호됨 이거임”',
+    summary:
+      'DCInside 패스 오브 엑자일 갤러리의 짧은 정보성/잡담 글입니다. 마피 관련 옵션으로 보이는 문구를 “장착된 호신부 (2-4)개가 알두르의 10293번째 전사에 의해 보호됨”이라고 특정해 공유한 내용입니다.',
+    summaryMarkdown:
+      '## 핵심 내용\n' +
+      '- 글쓴이는 디바인 소모 마피 옵션으로 보이는 문구를 짧게 공유했습니다.\n' +
+      '- 확인 대상 문구는 “장착된 호신부 (2-4)개가 알두르의 10293번째 전사에 의해 보호됨”입니다.\n' +
+      '- 상세 검증 글이라기보다는 옵션 확인용 짧은 커뮤니티 메모로 분류합니다.',
+    sourceName: 'DCInside 패스 오브 엑자일 마이너 갤러리',
+    sourceUrl: 'https://gall.dcinside.com/pathofexile/1211190',
+    sourceType: 'article',
+    status: '확인 필요',
+    publishedAt: '2026-05-18 11:16:33',
+    tags: ['마피', '호신부', '디바인', '옵션', '커뮤니티 잡글'],
+  },
+  {
+    id: 'issue-page-guide',
+    issueNumber: 999,
     category: '운영 메모',
     issueTab: '이슈',
     title: 'POE2 이슈 탭 사용 방식',

@@ -105,7 +105,10 @@ function App() {
   const currentGuide = actGuides.find((guide) => guide.act === activeAct) ?? actGuides[0]
   const completedCount = currentGuide.steps.filter((step) => completedSteps.has(step.id)).length
   const progressPercent = Math.round((completedCount / currentGuide.steps.length) * 100)
-  const visibleIssueItems = useMemo(() => issueItems.filter((issue) => !issue.hidden), [])
+  const visibleIssueItems = useMemo(
+    () => issueItems.filter((issue) => !issue.hidden).sort((a, b) => b.issueNumber - a.issueNumber),
+    [],
+  )
   const issueTabCounts = useMemo(
     () =>
       ISSUE_TABS.reduce<Record<IssueTab, number>>(
@@ -166,24 +169,14 @@ function App() {
         <div className="header-title-row">
           <div className="header-title-copy">
             <h1>poe2act_checker</h1>
-            <p className="launch-note">0.5.0 한국시간 5월 30일 오전 5시 오픈 · 잠컨 추천 3시 기상</p>
+            <p className="launch-note">
+              0.5.0 한국시간 <span>5월 30일 오전 5시 오픈</span> · 잠컨 추천 3시 기상
+            </p>
           </div>
-          <div className="top-action-panel" aria-label="POE2 바로가기와 오픈 카운트다운">
+          <div className="top-action-panel" aria-label="POE2 오픈 카운트다운">
             <div className="launch-countdown">
               <span>0.5.0 오픈까지</span>
               <strong>{formatLaunchRemaining(now)}</strong>
-            </div>
-            <div className="top-action-buttons">
-              <a className="daum-home-link" href={DAUM_POE2_URL} rel="noreferrer" target="_blank">
-                Daum POE2
-              </a>
-              <button
-                className={activeView === 'issues' ? 'issue-tab active' : 'issue-tab'}
-                onClick={() => setActiveView('issues')}
-                type="button"
-              >
-                POE2 이슈
-              </button>
             </div>
           </div>
         </div>
@@ -203,6 +196,18 @@ function App() {
             {guide.title}
           </button>
         ))}
+        <div className="top-action-buttons" aria-label="POE2 바로가기와 이슈 페이지">
+          <a className="daum-home-link" href={DAUM_POE2_URL} rel="noreferrer" target="_blank">
+            Daum POE2
+          </a>
+          <button
+            className={activeView === 'issues' ? 'issue-tab active' : 'issue-tab'}
+            onClick={() => setActiveView('issues')}
+            type="button"
+          >
+            POE2 이슈
+          </button>
+        </div>
       </nav>
 
       {activeView === 'checklist' ? (
