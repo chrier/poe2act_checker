@@ -1,0 +1,388 @@
+.app-shell {
+  --theme-bg: #12100d;
+  --theme-bg-2: #24190f;
+  --panel: rgba(30, 25, 20, 0.92);
+  --panel-2: #292119;
+  --border: #47382a;
+  --accent: #d99a43;
+  --accent-2: #8f3f2c;
+  --tip-bg: rgba(217, 154, 67, 0.08);
+  --tip-border: rgba(217, 154, 67, 0.3);
+  --tip-text: #ead8bf;
+
+  isolation: isolate;
+  margin: 0 auto;
+  min-height: 100vh;
+  padding: 32px 18px 56px;
+  position: relative;
+  width: min(980px, 100%);
+}
+
+.app-shell::before {
+  background:
+    radial-gradient(circle at top left, color-mix(in srgb, var(--accent) 28%, transparent), transparent 34rem),
+    linear-gradient(135deg, var(--theme-bg), var(--theme-bg-2));
+  content: '';
+  inset: 0 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  pointer-events: none;
+  position: fixed;
+  z-index: -1;
+}
+
+.theme-act-1 {
+  --theme-bg: #080f0b;
+  --theme-bg-2: #1a0d0d;
+  --panel: rgba(14, 24, 18, 0.95);
+  --panel-2: #1a261e;
+  --border: #314334;
+  --accent: #d34a3f;
+  --accent-2: #7f2427;
+  --tip-bg: rgba(211, 74, 63, 0.1);
+  --tip-border: rgba(211, 74, 63, 0.36);
+  --tip-text: #f0c8c0;
+}
+
+.theme-act-2 {
+  --theme-bg: #1d1308;
+  --theme-bg-2: #4b2e12;
+  --panel: rgba(45, 31, 16, 0.95);
+  --panel-2: #5b3a19;
+  --border: #7b5a33;
+  --accent: #f0b95d;
+  --accent-2: #b66d2e;
+  --tip-bg: rgba(240, 185, 93, 0.12);
+  --tip-border: rgba(240, 185, 93, 0.36);
+  --tip-text: #f5dfbd;
+}
+
+.theme-act-3 {
+  --theme-bg: #0d1713;
+  --theme-bg-2: #172a1e;
+  --panel: rgba(20, 32, 27, 0.94);
+  --panel-2: #1f352b;
+  --border: #355846;
+  --accent: #67c27c;
+  --accent-2: #2e7a51;
+  --tip-bg: rgba(103, 194, 124, 0.09);
+  --tip-border: rgba(103, 194, 124, 0.32);
+  --tip-text: #cbead0;
+}
+
+.theme-act-4 {
+  --theme-bg: #07161d;
+  --theme-bg-2: #123449;
+  --panel: rgba(14, 30, 40, 0.95);
+  --panel-2: #17384b;
+  --border: #315d70;
+  --accent: #53c7df;
+  --accent-2: #257f9d;
+  --tip-bg: rgba(83, 199, 223, 0.1);
+  --tip-border: rgba(83, 199, 223, 0.34);
+  --tip-text: #c8edf3;
+}
+
+.theme-act-5 {
+  --theme-bg: #101019;
+  --theme-bg-2: #262033;
+  --panel: rgba(28, 26, 38, 0.95);
+  --panel-2: #332d40;
+  --border: #514866;
+  --accent: #d2b46d;
+  --accent-2: #7a5c33;
+  --tip-bg: rgba(210, 180, 109, 0.1);
+  --tip-border: rgba(210, 180, 109, 0.34);
+  --tip-text: #eee0bd;
+}
+
+.app-header {
+  margin-bottom: 22px;
+}
+
+.eyebrow {
+  color: var(--accent);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  margin: 0 0 8px;
+  text-transform: uppercase;
+}
+
+h1 {
+  font-size: clamp(34px, 7vw, 64px);
+  line-height: 1;
+  margin: 0 0 14px;
+}
+
+.description {
+  color: var(--muted);
+  margin: 0;
+}
+
+.act-tabs {
+  display: flex;
+  gap: 8px;
+  margin: 24px 0 16px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+
+.act-tabs button {
+  background: color-mix(in srgb, var(--panel) 80%, black);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  color: var(--muted);
+  padding: 9px 16px;
+  transition: background 160ms ease, border-color 160ms ease, color 160ms ease;
+  white-space: nowrap;
+}
+
+.act-tabs button.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #1a120a;
+  font-weight: 800;
+}
+
+.progress-card {
+  background: linear-gradient(135deg, var(--panel), var(--panel-2));
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  margin-bottom: 18px;
+  padding: 18px;
+}
+
+.progress-card > div:first-child {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.progress-card strong {
+  font-size: 20px;
+}
+
+.progress-card span,
+.progress-card p {
+  color: var(--muted);
+}
+
+.progress-card p {
+  margin: 12px 0 0;
+}
+
+.progress-bar {
+  background: #0d0b09;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  height: 12px;
+  margin-top: 14px;
+  overflow: hidden;
+}
+
+.progress-bar span {
+  background: linear-gradient(90deg, var(--accent), color-mix(in srgb, var(--accent) 55%, white));
+  display: block;
+  height: 100%;
+  transition: width 160ms ease;
+}
+
+.step-list {
+  display: grid;
+  gap: 14px;
+}
+
+.step-card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.18);
+  overflow: hidden;
+}
+
+.step-card.done {
+  border-color: rgba(95, 143, 91, 0.8);
+  opacity: 0.76;
+}
+
+.step-title {
+  align-items: center;
+  background: rgba(255, 255, 255, 0.03);
+  cursor: pointer;
+  display: flex;
+  font-size: 21px;
+  font-weight: 800;
+  gap: 12px;
+  padding: 16px 18px;
+}
+
+.step-title input {
+  accent-color: var(--done);
+  height: 20px;
+  width: 20px;
+}
+
+.step-number {
+  align-items: center;
+  background: var(--accent-2);
+  border-radius: 999px;
+  color: #ffe8c4;
+  display: inline-flex;
+  font-size: 14px;
+  height: 28px;
+  justify-content: center;
+  min-width: 28px;
+}
+
+.step-content {
+  align-items: start;
+  display: grid;
+  gap: 14px;
+  grid-template-columns: minmax(180px, 0.38fr) 1fr;
+  padding: 0 18px 18px 18px;
+}
+
+.step-content.has-weapon-tips {
+  grid-template-columns: minmax(160px, 0.28fr) minmax(300px, 1fr) minmax(220px, 0.46fr);
+}
+
+.step-main-content {
+  display: grid;
+  gap: 14px;
+}
+
+.step-content h2 {
+  color: var(--accent);
+  font-size: 14px;
+  margin: 0 0 8px;
+}
+
+.reward-list,
+.tip-box ul,
+.update-tip-box ul,
+.weapon-tip-box ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.reward-list li,
+.tip-box li,
+.update-tip-box li,
+.weapon-tip-box li {
+  margin: 4px 0;
+}
+
+.next-route {
+  align-items: center;
+  color: var(--text);
+  display: flex;
+  gap: 8px;
+  margin: 0;
+}
+
+.next-route span {
+  background: #38291d;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  color: var(--accent);
+  font-size: 13px;
+  font-weight: 800;
+  padding: 3px 9px;
+}
+
+.tip-box {
+  background: var(--tip-bg);
+  border: 1px solid var(--tip-border);
+  border-radius: 12px;
+  color: var(--tip-text);
+  padding: 12px 14px;
+}
+
+.update-tip-box {
+  background: color-mix(in srgb, var(--accent) 13%, black);
+  border: 1px solid color-mix(in srgb, var(--accent) 50%, transparent);
+  border-left: 4px solid var(--accent);
+  border-radius: 12px;
+  color: color-mix(in srgb, var(--accent) 35%, white);
+  font-size: 14px;
+  line-height: 1.42;
+  min-height: 1px;
+  padding: 12px 12px 12px 14px;
+}
+
+.update-tip-box.empty {
+  background: transparent;
+  border-color: transparent;
+  border-left-color: transparent;
+  padding: 0;
+}
+
+.update-tip-box h2 {
+  align-items: center;
+  display: flex;
+  gap: 6px;
+}
+
+.update-tip-box h2::before {
+  content: '↗';
+  font-size: 13px;
+}
+
+.weapon-tip-box {
+  background: rgba(20, 16, 10, 0.74);
+  border: 1px solid color-mix(in srgb, #f0b95d 58%, transparent);
+  border-right: 4px solid #f0b95d;
+  border-radius: 12px;
+  color: #f4dfb9;
+  font-size: 14px;
+  line-height: 1.42;
+  padding: 12px 14px 12px 12px;
+}
+
+.weapon-tip-box h2 {
+  align-items: center;
+  color: #f0b95d;
+  display: flex;
+  gap: 6px;
+}
+
+.weapon-tip-box h2::before {
+  content: '⚒';
+  font-size: 13px;
+}
+
+@media (max-width: 640px) {
+  .app-shell {
+    padding-inline: 12px;
+  }
+
+  .progress-card > div:first-child {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .step-title {
+    font-size: 18px;
+    padding: 14px;
+  }
+
+  .step-content {
+    grid-template-columns: 1fr;
+    padding: 0 14px 16px 52px;
+  }
+
+  .step-content.has-weapon-tips {
+    grid-template-columns: 1fr;
+  }
+
+  .update-tip-box.empty {
+    display: none;
+  }
+
+  .update-tip-box,
+  .weapon-tip-box {
+    font-size: 13px;
+  }
+}
