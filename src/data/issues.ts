@@ -405,6 +405,58 @@ export const issueItems: IssueItem[] = [
     tags: ['Fubgun', 'Ice Shot', 'Snipe', '레벨링', '캠페인 런', '리그 스타트', '활 빌드'],
   },
   {
+    id: 'reddit-one-day-left-patch-notes-thickness',
+    issueNumber: 16,
+    category: '잡똥글',
+    issueTab: '잡똥글',
+    title: '1 day left…',
+    quote: '“Basically the updated SOPs for our beloved second jobs 😬”',
+    summary:
+      'Reddit r/PathOfExile2의 0.5.0 패치노트 대기 밈 글입니다. 두꺼운 인쇄물을 넘겨보는 이미지에 “0.5 패치노트가 얼마나 두꺼울지 예상하는 모습”이라는 문구를 붙여, 리그 시작 하루 전 패치노트 분량과 빌드 재검토 부담을 농담처럼 표현합니다.',
+    summaryMarkdown:
+      '## 밈 내용\n' +
+      '- 이미지에는 매우 두꺼운 종이 뭉치를 넘겨보는 사람과 함께 “HOW THICK I EXPECT / 0.5 PATCH NOTES TO BE”라는 문구가 들어갑니다.\n' +
+      '- 작성자는 POE2를 “사랑하는 두 번째 직업”처럼 표현하며, 리그 전 패치노트를 업무 절차서처럼 읽는 분위기를 농담합니다.\n' +
+      '- 패치 하루 전, 빌드·너프·시스템 변경을 확인해야 하는 커뮤니티의 기대와 피로감을 담은 잡담성 밈입니다.\n' +
+      '## 댓글 반응\n' +
+      '- 상위 댓글은 “현재 백수라 축복받았다”, “0.5가 나와서 면접을 취소했다”는 식으로 리그 스타트 몰입을 과장해 웃깁니다.\n' +
+      '- 일부는 이번 패치가 대규모 밸런스 패치는 아닐 수 있어 생각보다 짧을 수도 있다고 예상했습니다.\n' +
+      '- 위키 작성자와 요약 AI가 고생할 것이라는 반응도 이어졌습니다.',
+    sourceName: 'Reddit r/PathOfExile2',
+    sourceUrl: 'https://www.reddit.com/r/PathOfExile2/comments/1tidzgb/1_day_left/',
+    sourceType: 'article',
+    imageUrl: 'https://i.redd.it/85m665t3s82h1.jpeg',
+    status: '확인 필요',
+    publishedAt: '2026-05-20 07:08:04 UTC',
+    tags: ['Reddit', '잡똥글', '밈', '패치노트', '0.5.0', '리그 스타트', '댓글 반응'],
+  },
+  {
+    id: 'reddit-facebreaker-hollow-palm-050',
+    issueNumber: 17,
+    category: '잡똥글',
+    issueTab: '잡똥글',
+    title: 'My and my bro in 0.5.0',
+    quote: '“Patch notes in 2 days boysssssssssss”',
+    summary:
+      'Reddit r/PathOfExile2의 0.5.0 밈 글입니다. 악수/팔씨름 밈 이미지에서 한쪽 팔은 Facebreaker, 다른 쪽 팔은 Hollow Palm으로 표시되어, 0.5.0에서 맨손·격투 계열 빌드가 같이 주목받는 분위기를 표현합니다. 댓글에서는 패치노트 대기, Facebreaker와 Hollow Palm의 상호작용 가능성, Monk 장비 수요 증가 같은 잡담이 이어졌습니다.',
+    summaryMarkdown:
+      '## 밈 내용\n' +
+      '- 이미지에는 근육질 팔 두 개가 손을 맞잡는 밈 구도가 있고, 왼쪽은 Facebreaker, 오른쪽은 Hollow Palm으로 표시되어 있습니다.\n' +
+      '- 0.5.0에서 Facebreaker와 Hollow Palm 계열이 함께 주목받으며 맨손·격투 빌드 기대감이 커진 상황을 농담합니다.\n' +
+      '- 실제 빌드 검증글이라기보다는 패치 전 커뮤니티 기대감과 밈 반응에 가까운 잡똥글입니다.\n' +
+      '## 댓글 반응\n' +
+      '- 상위 댓글은 “패치노트가 2일 남았다”며 패치 전 대기 분위기를 드러냅니다.\n' +
+      '- 일부는 Expedition 60 즐겜러용 상의 탈의 MTX를 농담하거나, 맨손 플레이용 고유 아이템을 더 원한다는 반응을 보였습니다.\n' +
+      '- Facebreaker가 철퇴 스킬, Hollow Palm이 육척봉/스태프 쪽으로 취급될 수 있어 실제 상호작용은 불확실하다는 지적도 있었습니다.',
+    sourceName: 'Reddit r/PathOfExile2',
+    sourceUrl: 'https://www.reddit.com/r/PathOfExile2/comments/1thgw5m/my_and_my_bro_in_050/',
+    sourceType: 'article',
+    imageUrl: 'https://i.redd.it/7ksaimtt422h1.jpeg',
+    status: '확인 필요',
+    publishedAt: '2026-05-19 08:47:58 UTC',
+    tags: ['Reddit', '잡똥글', '밈', 'Facebreaker', 'Hollow Palm', '0.5.0', 'Monk', '맨손 빌드'],
+  },
+  {
     id: 'issue-page-guide',
     issueNumber: 999,
     category: '운영 메모',
