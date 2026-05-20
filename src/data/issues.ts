@@ -375,6 +375,36 @@ export const issueItems: IssueItem[] = [
     tags: ['Expedition', '탐험', '일지', '해양 탐험', '알두르의 룬', '룬 제작', '엔드게임'],
   },
   {
+    id: 'youtube-fubgun-ice-shot-snipe-campaign-run',
+    issueNumber: 15,
+    category: '레벨링 빌드',
+    issueTab: '빌드',
+    title: 'Fubgun: Ice Shot & Snipe 풀 캠페인 런 빌드 메모',
+    quote:
+      '“레벨 22에 Snipe 세팅으로 전환하고, Ice Shot은 레벨 31부터 사용합니다.”',
+    summary:
+      'Fubgun의 Ice Shot & Snipe 풀 캠페인 런 영상입니다. 초반에는 Lightning Arrow/Lightning Rod 계열로 진행하다가 레벨 22부터 Snipe 세팅으로 전환하고, 레벨 31 이후 Ice Shot을 본격적으로 붙이는 흐름을 보여줍니다. 보스전은 표식, 빙결 세팅, Barrage, Snipe를 묶은 콤보로 큰 피해를 내는 방식이며, 좋은 활과 플랫 피해 장비가 있으면 캠페인 보스를 매우 빠르게 넘길 수 있다고 설명합니다. 영상은 약 5시간 24분짜리 실전 런이라 빌드 가이드라기보다 레벨링 동선, 젬 전환 타이밍, 장비 갱신 기준을 확인하는 참고 자료에 가깝습니다.',
+    summaryMarkdown:
+      '## 레벨링 전환 흐름\n' +
+      '- 초반은 Lightning Arrow/Lightning Rod 기반으로 진행하고, 레벨 22부터 Snipe 세팅으로 전환합니다.\n' +
+      '- Ice Shot은 레벨 31부터 사용할 수 있어, 그 전까지는 기존 번개 스킬을 함께 활용하는 형태입니다.\n' +
+      '- 영상은 패치노트 전 연습 런이라 실제 리그 스타트 적용 여부는 너프/변경 사항 확인이 필요합니다.\n' +
+      '## 보스 딜 구조\n' +
+      '- 핵심 콤보는 표식, 빙결, Barrage, Snipe를 묶어 짧은 딜 타이밍에 큰 피해를 넣는 방식입니다.\n' +
+      '- 좋은 활과 플랫 피해 장비가 있으면 보스를 한 번의 Snipe 로테이션에 가깝게 넘길 수 있다고 설명합니다.\n' +
+      '- 장비가 애매하면 두 번 이상의 Snipe 로테이션이 필요할 수 있어 무기 갱신과 플랫 피해 확보가 중요합니다.\n' +
+      '## 참고 가치\n' +
+      '- 전체 캠페인 실전 런이라 Act별 동선, 상점 확인, 젬 선택, 보상 선택을 따라보기 좋습니다.\n' +
+      '- 레벨 11 활 갱신, 이동속도 장화, 플랫 피해 장갑/반지, 퀴버 갬블 같은 캠페인 장비 판단이 반복적으로 나옵니다.\n' +
+      '- Act 체크리스트 직접 반영보다는 0.5.0 리그 스타트 후보 빌드와 캠페인 연습 자료로 분류합니다.',
+    sourceName: 'Fubgun YouTube',
+    sourceUrl: 'https://www.youtube.com/watch?v=b1rLSu47u0Q',
+    sourceType: 'youtube',
+    videoEmbedUrl: 'https://www.youtube.com/embed/b1rLSu47u0Q',
+    status: '확인 필요',
+    tags: ['Fubgun', 'Ice Shot', 'Snipe', '레벨링', '캠페인 런', '리그 스타트', '활 빌드'],
+  },
+  {
     id: 'issue-page-guide',
     issueNumber: 999,
     category: '운영 메모',
