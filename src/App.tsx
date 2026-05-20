@@ -9,6 +9,7 @@ import {
   fetchIssueReactionCounts,
   getReactionKey,
   readLocalReactedKeys,
+  removeIssueReaction,
   writeLocalReactedKeys,
   type IssueReactionCounts,
   type IssueReactionEmoji,
@@ -17,6 +18,7 @@ import { VISITOR_PRESENCE_ENABLED, subscribeVisitorPresence } from './lib/visito
 import type { IssueItem, IssueTab } from './types'
 
 const STORAGE_KEY = 'poe2act_checker.completed_steps'
+const LOCAL_REACTION_COUNTS_KEY = 'poe2act_checker.issue_reactions.local_counts'
 const UPDATE_TIP_PREFIX = '[0.5 동선 개선]'
 const WEAPON_TIP_PREFIX = '[무기 제작]'
 const POE2_LAUNCH_AT = new Date('2026-05-30T05:00:00+09:00').getTime()
@@ -33,6 +35,24 @@ function readCompletedSteps() {
   } catch {
     return new Set<string>()
   }
+}
+
+function readLocalReactionCounts() {
+  const raw = window.localStorage.getItem(LOCAL_REACTION_COUNTS_KEY)
+  if (!raw) return {}
+
+  try {
+    const parsed = JSON.parse(raw) as Record<string, unknown>
+    return Object.fromEntries(
+      Object.entries(parsed).filter((entry): entry is [string, number] => typeof entry[0] === 'string' && typeof entry[1] === 'number'),
+    )
+  } catch {
+    return {}
+  }
+}
+
+function writeLocalReactionCounts(counts: Record<string, number>) {
+  window.localStorage.setItem(LOCAL_REACTION_COUNTS_KEY, JSON.stringify(counts))
 }
 
 function formatLaunchRemaining(now: number) {
@@ -139,6 +159,7 @@ function App() {
   const [issueSearch, setIssueSearch] = useState('')
   const [completedSteps, setCompletedSteps] = useState<Set<string>>(() => readCompletedSteps())
   const [issueReactionCounts, setIssueReactionCounts] = useState<IssueReactionCounts>({})
+  const [localIssueReactionCounts, setLocalIssueReactionCounts] = useState<Record<string, number>>(() => readLocalReactionCounts())
   const [reactedIssueKeys, setReactedIssueKeys] = useState<Set<string>>(() => readLocalReactedKeys())
   const [pendingReactionKey, setPendingReactionKey] = useState<string | null>(null)
   const [reactionLoadFailed, setReactionLoadFailed] = useState(false)
@@ -206,6 +227,10 @@ function App() {
   }, [reactedIssueKeys])
 
   useEffect(() => {
+    writeLocalReactionCounts(localIssueReactionCounts)
+  }, [localIssueReactionCounts])
+
+  useEffect(() => {
     if (!VISITOR_PRESENCE_ENABLED) return
     return subscribeVisitorPresence((count) => setVisitorCount(Math.max(count, 1)))
   }, [])
@@ -236,43 +261,72 @@ function App() {
     })
   }
 
-  async function handleIssueReaction(issueId: string, emoji: IssueReactionEmoji) {
+  async function handleIssueReaction(issueId: string, emoji: IssueReactionEmoji, hadReacted: boolean) {
     if (!ISSUE_REACTIONS_ENABLED || pendingReactionKey) return
 
     const reactionKey = getReactionKey(issueId, emoji)
-    if (reactedIssueKeys.has(reactionKey)) return
+    const countDelta = hadReacted ? -1 : 1
+    const currentDisplayCount = localIssueReactionCounts[reactionKey] ?? issueReactionCounts[issueId]?.[emoji] ?? 0
+    const nextDisplayCount = Math.max(currentDisplayCount + countDelta, 0)
 
     setPendingReactionKey(reactionKey)
+    setLocalIssueReactionCounts((previous) => ({
+      ...previous,
+      [reactionKey]: nextDisplayCount,
+    }))
     setIssueReactionCounts((previous) => ({
       ...previous,
       [issueId]: {
         ...previous[issueId],
-        [emoji]: (previous[issueId]?.[emoji] ?? 0) + 1,
+        [emoji]: nextDisplayCount,
       },
     }))
-    setReactedIssueKeys((previous) => new Set(previous).add(reactionKey))
+    setReactedIssueKeys((previous) => {
+      const next = new Set(previous)
+      if (hadReacted) {
+        next.delete(reactionKey)
+      } else {
+        next.add(reactionKey)
+      }
+      return next
+    })
 
     try {
-      const result = await addIssueReaction(issueId, emoji)
-      if (result.alreadyReacted) {
-        const latestCounts = await fetchIssueReactionCounts()
-        setIssueReactionCounts(latestCounts)
+      if (hadReacted) {
+        await removeIssueReaction(issueId, emoji)
+      } else {
+        const result = await addIssueReaction(issueId, emoji)
+        if (result.alreadyReacted) {
+          const latestCounts = await fetchIssueReactionCounts()
+          setIssueReactionCounts(latestCounts)
+          setLocalIssueReactionCounts((previous) => {
+            const next = { ...previous }
+            delete next[reactionKey]
+            return next
+          })
+        }
       }
       setReactionLoadFailed(false)
     } catch {
-      setIssueReactionCounts((previous) => ({
-        ...previous,
-        [issueId]: {
-          ...previous[issueId],
-          [emoji]: Math.max((previous[issueId]?.[emoji] ?? 1) - 1, 0),
-        },
-      }))
-      setReactedIssueKeys((previous) => {
-        const next = new Set(previous)
-        next.delete(reactionKey)
-        return next
-      })
-      setReactionLoadFailed(true)
+      if (!hadReacted) {
+        setIssueReactionCounts((previous) => ({
+          ...previous,
+          [issueId]: {
+            ...previous[issueId],
+            [emoji]: currentDisplayCount,
+          },
+        }))
+        setLocalIssueReactionCounts((previous) => ({
+          ...previous,
+          [reactionKey]: currentDisplayCount,
+        }))
+        setReactedIssueKeys((previous) => {
+          const next = new Set(previous)
+          next.delete(reactionKey)
+          return next
+        })
+        setReactionLoadFailed(true)
+      }
     } finally {
       setPendingReactionKey(null)
     }
@@ -548,20 +602,20 @@ function App() {
                         const reactionKey = getReactionKey(issue.id, emoji)
                         const hasReacted = reactedIssueKeys.has(reactionKey)
                         const isPending = pendingReactionKey === reactionKey
-                        const count = issueReactionCounts[issue.id]?.[emoji] ?? 0
+                        const count = localIssueReactionCounts[reactionKey] ?? issueReactionCounts[issue.id]?.[emoji] ?? 0
 
                         return (
                           <button
                             aria-pressed={hasReacted}
                             className={hasReacted ? 'issue-reaction-button active' : 'issue-reaction-button'}
-                            disabled={!ISSUE_REACTIONS_ENABLED || hasReacted || Boolean(pendingReactionKey)}
+                            disabled={!ISSUE_REACTIONS_ENABLED || (Boolean(pendingReactionKey) && pendingReactionKey !== reactionKey)}
                             key={emoji}
-                            onClick={() => handleIssueReaction(issue.id, emoji)}
+                            onClick={() => handleIssueReaction(issue.id, emoji, hasReacted)}
                             title={
                               !ISSUE_REACTIONS_ENABLED
                                 ? 'Supabase 설정 후 공개 반응이 저장됩니다'
                                 : hasReacted
-                                  ? '이미 남긴 반응입니다'
+                                  ? `${emoji} 반응 취소`
                                   : `${emoji} 반응 남기기`
                             }
                             type="button"

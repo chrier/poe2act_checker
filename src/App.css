@@ -1045,6 +1045,16 @@ h1 {
   cursor: default;
 }
 
+.issue-reaction-button.active:not(:disabled) {
+  cursor: pointer;
+}
+
+.issue-reaction-button.active:hover:not(:disabled) {
+  background: #353a40;
+  border-color: #111214;
+  box-shadow: 0 5px 12px rgb(0 0 0 / 18%);
+}
+
 .issue-reaction-button strong {
   font-size: 15px;
   font-variant-numeric: tabular-nums;

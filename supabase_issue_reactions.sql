@@ -43,10 +43,33 @@ begin
 end;
 $$;
 
+create or replace function public.decrement_issue_reaction_total()
+returns trigger
+language plpgsql
+security definer
+set search_path = public
+as $$
+begin
+  update public.issue_reaction_totals
+  set
+    count = greatest(count - 1, 0),
+    updated_at = now()
+  where issue_id = old.issue_id
+    and emoji = old.emoji;
+
+  return old;
+end;
+$$;
+
 drop trigger if exists issue_reaction_votes_after_insert on public.issue_reaction_votes;
 create trigger issue_reaction_votes_after_insert
 after insert on public.issue_reaction_votes
 for each row execute function public.increment_issue_reaction_total();
+
+drop trigger if exists issue_reaction_votes_after_delete on public.issue_reaction_votes;
+create trigger issue_reaction_votes_after_delete
+after delete on public.issue_reaction_votes
+for each row execute function public.decrement_issue_reaction_total();
 
 alter table public.issue_reaction_totals enable row level security;
 alter table public.issue_reaction_votes enable row level security;
@@ -71,4 +94,36 @@ with check (
   and emoji in ('👍', '👀', '😂', '😮', '🔥', '💀')
 );
 
+drop policy if exists "Anonymous visitors can delete own issue reactions" on public.issue_reaction_votes;
+
+create or replace function public.delete_issue_reaction_vote(
+  p_issue_id text,
+  p_emoji text,
+  p_anon_id text
+)
+returns void
+language plpgsql
+security definer
+set search_path = public
+as $$
+begin
+  if p_issue_id = ''
+    or p_anon_id = ''
+    or length(p_issue_id) > 160
+    or length(p_anon_id) > 120
+    or p_emoji not in ('👍', '👀', '😂', '😮', '🔥', '💀') then
+    return;
+  end if;
+
+  delete from public.issue_reaction_votes
+  where issue_id = p_issue_id
+    and emoji = p_emoji
+    and anon_id = p_anon_id;
+end;
+$$;
+
+grant execute on function public.delete_issue_reaction_vote(text, text, text) to anon;
+
 -- Do not add a SELECT policy for issue_reaction_votes. The public app only needs totals.
+-- Deletions go through delete_issue_reaction_vote() so visitors can only remove the
+-- exact browser reaction matching their local anonymous id.
