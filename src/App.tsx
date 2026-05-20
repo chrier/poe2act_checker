@@ -2,6 +2,18 @@ import { useEffect, useMemo, useState } from 'react'
 import './App.css'
 import { actGuides } from './data/acts'
 import { issueItems } from './data/issues'
+import {
+  ISSUE_REACTION_EMOJIS,
+  ISSUE_REACTIONS_ENABLED,
+  addIssueReaction,
+  fetchIssueReactionCounts,
+  getReactionKey,
+  readLocalReactedKeys,
+  writeLocalReactedKeys,
+  type IssueReactionCounts,
+  type IssueReactionEmoji,
+} from './lib/reactions'
+import { VISITOR_PRESENCE_ENABLED, subscribeVisitorPresence } from './lib/visitorPresence'
 import type { IssueItem, IssueTab } from './types'
 
 const STORAGE_KEY = 'poe2act_checker.completed_steps'
@@ -126,6 +138,12 @@ function App() {
   const [activeIssueTab, setActiveIssueTab] = useState<IssueTab>('전체')
   const [issueSearch, setIssueSearch] = useState('')
   const [completedSteps, setCompletedSteps] = useState<Set<string>>(() => readCompletedSteps())
+  const [issueReactionCounts, setIssueReactionCounts] = useState<IssueReactionCounts>({})
+  const [reactedIssueKeys, setReactedIssueKeys] = useState<Set<string>>(() => readLocalReactedKeys())
+  const [pendingReactionKey, setPendingReactionKey] = useState<string | null>(null)
+  const [reactionLoadFailed, setReactionLoadFailed] = useState(false)
+  const [showVisitorCount, setShowVisitorCount] = useState(false)
+  const [visitorCount, setVisitorCount] = useState(1)
   const [now, setNow] = useState(() => Date.now())
 
   const currentGuide = actGuides.find((guide) => guide.act === activeAct) ?? actGuides[0]
@@ -164,6 +182,35 @@ function App() {
   }, [completedSteps])
 
   useEffect(() => {
+    if (!ISSUE_REACTIONS_ENABLED) return
+
+    let isMounted = true
+
+    fetchIssueReactionCounts()
+      .then((counts) => {
+        if (!isMounted) return
+        setIssueReactionCounts(counts)
+        setReactionLoadFailed(false)
+      })
+      .catch(() => {
+        if (isMounted) setReactionLoadFailed(true)
+      })
+
+    return () => {
+      isMounted = false
+    }
+  }, [])
+
+  useEffect(() => {
+    writeLocalReactedKeys(reactedIssueKeys)
+  }, [reactedIssueKeys])
+
+  useEffect(() => {
+    if (!VISITOR_PRESENCE_ENABLED) return
+    return subscribeVisitorPresence((count) => setVisitorCount(Math.max(count, 1)))
+  }, [])
+
+  useEffect(() => {
     const timer = window.setInterval(() => setNow(Date.now()), 1000)
     return () => window.clearInterval(timer)
   }, [])
@@ -189,12 +236,68 @@ function App() {
     })
   }
 
+  async function handleIssueReaction(issueId: string, emoji: IssueReactionEmoji) {
+    if (!ISSUE_REACTIONS_ENABLED || pendingReactionKey) return
+
+    const reactionKey = getReactionKey(issueId, emoji)
+    if (reactedIssueKeys.has(reactionKey)) return
+
+    setPendingReactionKey(reactionKey)
+    setIssueReactionCounts((previous) => ({
+      ...previous,
+      [issueId]: {
+        ...previous[issueId],
+        [emoji]: (previous[issueId]?.[emoji] ?? 0) + 1,
+      },
+    }))
+    setReactedIssueKeys((previous) => new Set(previous).add(reactionKey))
+
+    try {
+      const result = await addIssueReaction(issueId, emoji)
+      if (result.alreadyReacted) {
+        const latestCounts = await fetchIssueReactionCounts()
+        setIssueReactionCounts(latestCounts)
+      }
+      setReactionLoadFailed(false)
+    } catch {
+      setIssueReactionCounts((previous) => ({
+        ...previous,
+        [issueId]: {
+          ...previous[issueId],
+          [emoji]: Math.max((previous[issueId]?.[emoji] ?? 1) - 1, 0),
+        },
+      }))
+      setReactedIssueKeys((previous) => {
+        const next = new Set(previous)
+        next.delete(reactionKey)
+        return next
+      })
+      setReactionLoadFailed(true)
+    } finally {
+      setPendingReactionKey(null)
+    }
+  }
+
   return (
     <main className={`app-shell ${activeView === 'issues' ? 'theme-issues' : `theme-act-${currentGuide.act}`}`}>
       <header className="app-header">
         <div className="header-title-row">
           <div className="header-title-copy">
-            <h1>poe2act_checker</h1>
+            <h1>
+              poe2act_checker
+              <button
+                aria-label="실시간 접속자 수 표시"
+                className={showVisitorCount ? 'visitor-count-secret active' : 'visitor-count-secret'}
+                onClick={() => setShowVisitorCount((previous) => !previous)}
+                type="button"
+              >
+                {showVisitorCount ? (
+                  <span>{VISITOR_PRESENCE_ENABLED ? `접속 ${visitorCount}` : '접속 --'}</span>
+                ) : (
+                  <span aria-hidden="true">·</span>
+                )}
+              </button>
+            </h1>
             <p className="launch-note">
               0.5.0 한국시간 <span>5월 30일 오전 5시 오픈</span> · 잠컨 추천 3시 기상
             </p>
@@ -437,6 +540,41 @@ function App() {
                       ))}
                     </div>
                   )}
+
+                  <div className="issue-reactions" aria-label="익명 공개 반응">
+                    <span className="issue-reactions-label">반응</span>
+                    <div className="issue-reaction-buttons">
+                      {ISSUE_REACTION_EMOJIS.map((emoji) => {
+                        const reactionKey = getReactionKey(issue.id, emoji)
+                        const hasReacted = reactedIssueKeys.has(reactionKey)
+                        const isPending = pendingReactionKey === reactionKey
+                        const count = issueReactionCounts[issue.id]?.[emoji] ?? 0
+
+                        return (
+                          <button
+                            aria-pressed={hasReacted}
+                            className={hasReacted ? 'issue-reaction-button active' : 'issue-reaction-button'}
+                            disabled={!ISSUE_REACTIONS_ENABLED || hasReacted || Boolean(pendingReactionKey)}
+                            key={emoji}
+                            onClick={() => handleIssueReaction(issue.id, emoji)}
+                            title={
+                              !ISSUE_REACTIONS_ENABLED
+                                ? 'Supabase 설정 후 공개 반응이 저장됩니다'
+                                : hasReacted
+                                  ? '이미 남긴 반응입니다'
+                                  : `${emoji} 반응 남기기`
+                            }
+                            type="button"
+                          >
+                            <span aria-hidden="true">{emoji}</span>
+                            <strong>{isPending ? '…' : count}</strong>
+                          </button>
+                        )
+                      })}
+                    </div>
+                    {!ISSUE_REACTIONS_ENABLED && <small>Supabase 환경 변수 설정 후 공개 카운트가 저장됩니다.</small>}
+                    {ISSUE_REACTIONS_ENABLED && reactionLoadFailed && <small>반응 저장/불러오기에 실패했습니다.</small>}
+                  </div>
                 </div>
 
                 <div className="issue-source-row">
