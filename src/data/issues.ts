@@ -457,6 +457,36 @@ export const issueItems: IssueItem[] = [
     tags: ['Reddit', '잡똥글', '밈', 'Facebreaker', 'Hollow Palm', '0.5.0', 'Monk', '맨손 빌드'],
   },
   {
+    id: 'youtube-breach-rework-recap-genesis-tree',
+    issueNumber: 18,
+    category: '게임 시스템',
+    issueTab: '공식',
+    title: 'Breach 개편 요약: Genesis Tree와 Hiveborn 도메인 구조 공개',
+    quote:
+      '“이제 균열을 얼마나 더 열어둘 수 있는지, 처치가 지속시간을 얼마나 늘리는지 눈으로 볼 수 있습니다.”',
+    summary:
+      'Path of Exile 공식 영상에서 POE2 엔드게임 Breach 개편을 정리했습니다. 첫 Breach 이후 Alith와 Keepers of the Flame 퀘스트가 열리고, 균열 유지 시간이 시각화되며 오래 버티면 강화된 Hiveborn 단계로 넘어가 Hive Blood와 Womb Gift를 얻습니다. Monastery의 Genesis Tree는 Womb Gift와 Hive Blood를 사용해 목걸이·반지·벨트·화폐 보상을 제작하고, 진행할수록 베이스 타입·특정 모드·새 전용 베이스까지 조절할 수 있는 제작 트리 역할을 합니다. 후반에는 Breach Stone으로 Hiveborn 도메인에 진입해 Hive와 Skyhive를 정화하고 Tul/Ash, Zesh 같은 Breach 보스 및 Breach Atlas 트리 보상으로 이어지는 구조입니다.',
+    summaryMarkdown:
+      '## Breach 인카운터 변경\n' +
+      '- Breach를 열어둔 남은 시간과 처치로 연장되는 시간이 시각적으로 표시됩니다.\n' +
+      '- 충분히 오래 유지하면 Breach가 안정화되고, 더 강한 Hiveborn 무리가 등장하는 새 단계로 넘어갑니다.\n' +
+      '- 이 단계에서 Hive Blood와 Womb Gift를 얻어 Genesis Tree 제작과 Breach 진행에 사용합니다.\n' +
+      '## Genesis Tree 제작\n' +
+      '- Womb Gift는 목걸이·반지·벨트·화폐 등 보상 유형을 낳는 재료이고, Hive Blood로 비옥화해야 합니다.\n' +
+      '- 트리가 회복될수록 베이스 타입, 고레벨/특정 모드, 전용 신규 베이스 같은 선택지를 더 세밀하게 조절할 수 있습니다.\n' +
+      '- 반지에는 주문/소환수 빌드용 새 모드 계열도 추가되어 공격 빌드 대비 부족했던 제작 슬롯을 보완합니다.\n' +
+      '## 도메인·보스·Atlas 확장\n' +
+      '- Breach Stone을 만들면 Hiveborn 도메인으로 들어가 Hive와 Skyhive를 정화하고 Breach Lord Tul/Ash를 상대합니다.\n' +
+      '- 퀘스트 이후에도 Atlas에서 Breach 도메인을 찾고, 최종적으로 기존 Breach Pinnacle 보스 Zesh 접근으로 이어집니다.\n' +
+      '- Breach Atlas 트리는 Hive 추가 스폰, Alith 지원 능력, 보상 제어, Genesis Tree 관련 특수 보상 등을 제공합니다.',
+    sourceName: 'Path of Exile YouTube',
+    sourceUrl: 'https://www.youtube.com/watch?v=GJuipxNQtq4',
+    sourceType: 'youtube',
+    videoEmbedUrl: 'https://www.youtube.com/embed/GJuipxNQtq4',
+    status: '확인 필요',
+    tags: ['Breach', '균열', 'Genesis Tree', 'Hiveborn', 'Womb Gift', 'Breach Stone', '엔드게임'],
+  },
+  {
     id: 'issue-page-guide',
     issueNumber: 999,
     category: '운영 메모',
