@@ -1432,35 +1432,19 @@ h1 {
   padding: 6px 10px;
 }
 
-.patch-note-summary {
-  background: #eee8dc;
-  border: 1px solid #c8bba9;
-  border-radius: 15px;
-  color: #262018;
-  margin: 16px 18px;
-  padding: 14px 16px;
-}
-
-.patch-note-summary strong {
-  display: block;
-  margin-bottom: 6px;
-}
-
-.patch-note-summary ul,
 .patch-note-body ul,
 .patch-note-original ul {
   margin: 0;
   padding-left: 19px;
 }
 
-.patch-note-summary li + li,
 .patch-note-body li + li,
 .patch-note-original li + li {
   margin-top: 7px;
 }
 
 .patch-note-body {
-  padding: 0 18px 18px;
+  padding: 16px 18px 18px;
 }
 
 .patch-note-body h4 {

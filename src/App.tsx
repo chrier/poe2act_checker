@@ -619,15 +619,6 @@ function App() {
                         <span>{section.lineCount}개 항목</span>
                       </header>
 
-                      <div className="patch-note-summary">
-                        <strong>빠른 요약</strong>
-                        <ul>
-                          {section.summaryKo.map((line) => (
-                            <li key={line}>{line}</li>
-                          ))}
-                        </ul>
-                      </div>
-
                       <div className="patch-note-body">
                         <h4>{search ? `검색된 번역 문장 ${shownLines.length}개` : '한글 번역'}</h4>
                         {shownLines.length === 0 ? (
