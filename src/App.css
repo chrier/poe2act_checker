@@ -1470,59 +1470,55 @@ h1 {
 }
 
 .patch-note-body li {
-  align-items: start;
   background: rgba(255, 255, 255, 0.045);
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 11px;
   color: #f0e6d7;
-  display: grid;
-  gap: 8px;
-  grid-template-columns: minmax(0, 1fr) auto;
   padding: 9px 10px;
 }
 
-.patch-note-line-original {
-  justify-self: end;
-  max-width: 100%;
+.patch-note-line-main {
+  align-items: flex-start;
+  display: flex;
+  gap: 10px;
+  justify-content: space-between;
 }
 
-.patch-note-line-original summary {
+.patch-note-line-main span {
+  min-width: 0;
+}
+
+.patch-note-original-toggle {
+  align-self: flex-start;
   background: rgba(215, 169, 91, 0.13);
   border: 1px solid rgba(215, 169, 91, 0.34);
   border-radius: 999px;
   color: #f5d7a3;
   cursor: pointer;
+  flex: 0 0 auto;
   font-size: 12px;
   font-weight: 900;
   line-height: 1;
-  list-style: none;
+  min-width: 48px;
   padding: 6px 9px;
   text-align: center;
   white-space: nowrap;
+  width: max-content;
 }
 
-.patch-note-line-original summary::-webkit-details-marker {
-  display: none;
+.patch-note-original-toggle:hover {
+  background: rgba(215, 169, 91, 0.22);
+  border-color: rgba(245, 215, 163, 0.6);
 }
 
-.patch-note-line-original[open] {
-  grid-column: 1 / -1;
-  justify-self: stretch;
-}
-
-.patch-note-line-original[open] summary {
-  display: inline-flex;
-  margin-bottom: 7px;
-}
-
-.patch-note-line-original p {
+.patch-note-line-original-text {
   background: #181c20;
   border: 1px solid #3f4650;
   border-radius: 10px;
   color: #d6dee6;
   font-size: 15px;
   line-height: 1.5;
-  margin: 0;
+  margin: 8px 0 0;
   padding: 9px 10px;
 }
 

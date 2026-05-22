@@ -160,6 +160,7 @@ function App() {
   const [issueSearch, setIssueSearch] = useState('')
   const [patchNoteSearch, setPatchNoteSearch] = useState('')
   const [showPatchOriginal, setShowPatchOriginal] = useState(false)
+  const [openPatchOriginals, setOpenPatchOriginals] = useState<Set<string>>(new Set())
   const [completedSteps, setCompletedSteps] = useState<Set<string>>(() => readCompletedSteps())
   const [issueReactionCounts, setIssueReactionCounts] = useState<IssueReactionCounts>({})
   const [localIssueReactionCounts, setLocalIssueReactionCounts] = useState<Record<string, number>>(() => readLocalReactionCounts())
@@ -252,6 +253,18 @@ function App() {
     const timer = window.setInterval(() => setNow(Date.now()), 1000)
     return () => window.clearInterval(timer)
   }, [])
+
+  function togglePatchOriginal(lineKey: string) {
+    setOpenPatchOriginals((previous) => {
+      const next = new Set(previous)
+      if (next.has(lineKey)) {
+        next.delete(lineKey)
+      } else {
+        next.add(lineKey)
+      }
+      return next
+    })
+  }
 
   function toggleStep(stepId: string) {
     setCompletedSteps((previous) => {
@@ -621,15 +634,28 @@ function App() {
                           <p className="patch-note-empty">이 목차 안에서는 검색어와 일치하는 번역 문장이 없습니다.</p>
                         ) : (
                           <ul>
-                            {shownLines.map((line) => (
-                              <li key={`${section.id}-${line.index}`}>
-                                <span>{line.ko}</span>
-                                <details className="patch-note-line-original" open={showPatchOriginal}>
-                                  <summary>원문</summary>
-                                  <p>{line.en}</p>
-                                </details>
-                              </li>
-                            ))}
+                            {shownLines.map((line) => {
+                              const lineKey = `${section.id}-${line.index}`
+                              const isOriginalOpen = showPatchOriginal || openPatchOriginals.has(lineKey)
+
+                              return (
+                                <li key={lineKey}>
+                                  <div className="patch-note-line-main">
+                                    <span>{line.ko}</span>
+                                    {line.en && !showPatchOriginal && (
+                                      <button
+                                        className="patch-note-original-toggle"
+                                        onClick={() => togglePatchOriginal(lineKey)}
+                                        type="button"
+                                      >
+                                        {isOriginalOpen ? '원문 닫기' : '원문'}
+                                      </button>
+                                    )}
+                                  </div>
+                                  {line.en && isOriginalOpen && <p className="patch-note-line-original-text">{line.en}</p>}
+                                </li>
+                              )
+                            })}
                           </ul>
                         )}
                       </div>
