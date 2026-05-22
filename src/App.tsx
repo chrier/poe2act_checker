@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import './App.css'
 import { actGuides } from './data/acts'
 import { issueItems } from './data/issues'
+import { patchNotes050 } from './data/patchNotes050'
 import {
   ISSUE_REACTION_EMOJIS,
   ISSUE_REACTIONS_ENABLED,
@@ -154,9 +155,11 @@ function renderIssueSummary(issue: IssueItem) {
 
 function App() {
   const [activeAct, setActiveAct] = useState(actGuides[0].act)
-  const [activeView, setActiveView] = useState<'checklist' | 'issues'>('checklist')
+  const [activeView, setActiveView] = useState<'checklist' | 'issues' | 'patchNotes'>('checklist')
   const [activeIssueTab, setActiveIssueTab] = useState<IssueTab>('전체')
   const [issueSearch, setIssueSearch] = useState('')
+  const [patchNoteSearch, setPatchNoteSearch] = useState('')
+  const [showPatchOriginal, setShowPatchOriginal] = useState(false)
   const [completedSteps, setCompletedSteps] = useState<Set<string>>(() => readCompletedSteps())
   const [issueReactionCounts, setIssueReactionCounts] = useState<IssueReactionCounts>({})
   const [localIssueReactionCounts, setLocalIssueReactionCounts] = useState<Record<string, number>>(() => readLocalReactionCounts())
@@ -192,6 +195,16 @@ function App() {
       ),
     [activeIssueTab, issueSearch, visibleIssueItems],
   )
+  const filteredPatchNoteSections = useMemo(() => {
+    const search = patchNoteSearch.trim().toLocaleLowerCase()
+    if (!search) return patchNotes050.sections
+
+    return patchNotes050.sections.filter((section) =>
+      [section.titleKo, section.titleEn, section.bodyKo, section.bodyEn].some((value) =>
+        value.toLocaleLowerCase().includes(search),
+      ),
+    )
+  }, [patchNoteSearch])
 
   const nextStep = useMemo(
     () => currentGuide.steps.find((step) => !completedSteps.has(step.id)),
@@ -333,7 +346,7 @@ function App() {
   }
 
   return (
-    <main className={`app-shell ${activeView === 'issues' ? 'theme-issues' : `theme-act-${currentGuide.act}`}`}>
+    <main className={`app-shell ${activeView === 'issues' ? 'theme-issues' : activeView === 'patchNotes' ? 'theme-patch-notes' : `theme-act-${currentGuide.act}`}`}>
       <header className="app-header">
         <div className="header-title-row">
           <div className="header-title-copy">
@@ -383,6 +396,13 @@ function App() {
           <a className="daum-home-link" href={DAUM_POE2_URL} rel="noreferrer" target="_blank">
             Daum POE2
           </a>
+          <button
+            className={activeView === 'patchNotes' ? 'patch-note-tab active' : 'patch-note-tab'}
+            onClick={() => setActiveView('patchNotes')}
+            type="button"
+          >
+            0.5.0 패치노트
+          </button>
           <button
             className={activeView === 'issues' ? 'issue-tab active' : 'issue-tab'}
             onClick={() => setActiveView('issues')}
@@ -514,6 +534,108 @@ function App() {
         })}
       </section>
         </>
+      ) : activeView === 'patchNotes' ? (
+        <section className="patch-note-page" aria-label="POE2 0.5.0 패치노트 한글 번역">
+          <div className="patch-note-hero">
+            <p className="patch-note-kicker">Path of Exile 2 · Return of the Ancients</p>
+            <h2>{patchNotes050.titleKo}</h2>
+            <p>{patchNotes050.introKo}</p>
+            <div className="patch-note-hero-actions">
+              <a href={patchNotes050.sourceUrl} rel="noreferrer" target="_blank">공식 원문</a>
+              <label>
+                <input
+                  checked={showPatchOriginal}
+                  onChange={(event) => setShowPatchOriginal(event.target.checked)}
+                  type="checkbox"
+                />
+                영문 원문 함께 보기
+              </label>
+            </div>
+          </div>
+
+          <div className="patch-note-toolbar" aria-label="패치노트 검색">
+            <label>
+              <span>패치노트 검색</span>
+              <input
+                onChange={(event) => setPatchNoteSearch(event.target.value)}
+                placeholder="룬, 심연, 패시브, 고유 아이템, 버그"
+                type="search"
+                value={patchNoteSearch}
+              />
+            </label>
+            <button disabled={!patchNoteSearch} onClick={() => setPatchNoteSearch('')} type="button">
+              초기화
+            </button>
+            <strong>{filteredPatchNoteSections.length} / {patchNotes050.sections.length} 목차</strong>
+          </div>
+
+          <nav className="patch-note-toc" aria-label="0.5.0 패치노트 목차">
+            {patchNotes050.sections.map((section, index) => (
+              <a href={`#patch-${section.id}`} key={section.id}>
+                <span>{String(index + 1).padStart(2, '0')}</span>
+                {section.titleKo}
+              </a>
+            ))}
+          </nav>
+
+          <div className="patch-note-list">
+            {filteredPatchNoteSections.length === 0 ? (
+              <div className="patch-note-empty">검색어와 일치하는 패치노트 목차가 없습니다.</div>
+            ) : (
+              filteredPatchNoteSections.map((section) => {
+                const search = patchNoteSearch.trim().toLocaleLowerCase()
+                const koLines = section.bodyKo.split('\n').map((line) => line.trim()).filter(Boolean)
+                const shownKoLines = search ? koLines.filter((line) => line.toLocaleLowerCase().includes(search)) : koLines
+                const enLines = section.bodyEn.split('\n').map((line) => line.trim()).filter(Boolean)
+
+                return (
+                  <article className="patch-note-card" id={`patch-${section.id}`} key={section.id}>
+                    <header>
+                      <div>
+                        <p>{section.titleEn}</p>
+                        <h3>{section.titleKo}</h3>
+                      </div>
+                      <span>{section.lineCount}개 항목</span>
+                    </header>
+
+                    <div className="patch-note-summary">
+                      <strong>빠른 요약</strong>
+                      <ul>
+                        {section.summaryKo.map((line) => (
+                          <li key={line}>{line}</li>
+                        ))}
+                      </ul>
+                    </div>
+
+                    <div className="patch-note-body">
+                      <h4>{search ? `검색된 번역 문장 ${shownKoLines.length}개` : '한글 번역'}</h4>
+                      {shownKoLines.length === 0 ? (
+                        <p className="patch-note-empty">이 목차 안에서는 검색어와 일치하는 번역 문장이 없습니다.</p>
+                      ) : (
+                        <ul>
+                          {shownKoLines.map((line, index) => (
+                            <li key={`${line}-${index}`}>{line}</li>
+                          ))}
+                        </ul>
+                      )}
+                    </div>
+
+                    {showPatchOriginal && (
+                      <details className="patch-note-original" open>
+                        <summary>영문 원문 보기</summary>
+                        <ul>
+                          {enLines.map((line, index) => (
+                            <li key={`${line}-${index}`}>{line}</li>
+                          ))}
+                        </ul>
+                      </details>
+                    )}
+                  </article>
+                )
+              })
+            )}
+          </div>
+        </section>
       ) : (
         <section className="issue-page" aria-label="POE2 이슈">
           <div className="issue-controls" aria-label="POE2 이슈 필터와 검색">
