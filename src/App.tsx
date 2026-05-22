@@ -569,71 +569,75 @@ function App() {
             <strong>{filteredPatchNoteSections.length} / {patchNotes050.sections.length} 목차</strong>
           </div>
 
-          <nav className="patch-note-toc" aria-label="0.5.0 패치노트 목차">
-            {patchNotes050.sections.map((section, index) => (
-              <a href={`#patch-${section.id}`} key={section.id}>
-                <span>{String(index + 1).padStart(2, '0')}</span>
-                {section.titleKo}
-              </a>
-            ))}
-          </nav>
+          <div className="patch-note-reader">
+            <nav className="patch-note-toc" aria-label="0.5.0 패치노트 목차">
+              <div className="patch-note-toc-title">
+                <span>0.5.0</span>
+                <strong>패치노트 목차</strong>
+              </div>
+              {patchNotes050.sections.map((section, index) => (
+                <a href={`#patch-${section.id}`} key={section.id}>
+                  <span>{String(index + 1).padStart(2, '0')}</span>
+                  {section.titleKo}
+                </a>
+              ))}
+            </nav>
 
-          <div className="patch-note-list">
-            {filteredPatchNoteSections.length === 0 ? (
-              <div className="patch-note-empty">검색어와 일치하는 패치노트 목차가 없습니다.</div>
-            ) : (
-              filteredPatchNoteSections.map((section) => {
-                const search = patchNoteSearch.trim().toLocaleLowerCase()
-                const koLines = section.bodyKo.split('\n').map((line) => line.trim()).filter(Boolean)
-                const shownKoLines = search ? koLines.filter((line) => line.toLocaleLowerCase().includes(search)) : koLines
-                const enLines = section.bodyEn.split('\n').map((line) => line.trim()).filter(Boolean)
+            <div className="patch-note-list">
+              {filteredPatchNoteSections.length === 0 ? (
+                <div className="patch-note-empty">검색어와 일치하는 패치노트 목차가 없습니다.</div>
+              ) : (
+                filteredPatchNoteSections.map((section) => {
+                  const search = patchNoteSearch.trim().toLocaleLowerCase()
+                  const koLines = section.bodyKo.split('\n').map((line) => line.trim()).filter(Boolean)
+                  const enLines = section.bodyEn.split('\n').map((line) => line.trim()).filter(Boolean)
+                  const pairedLines = koLines.map((line, index) => ({ ko: line, en: enLines[index] ?? '', index }))
+                  const shownLines = search
+                    ? pairedLines.filter((line) => line.ko.toLocaleLowerCase().includes(search) || line.en.toLocaleLowerCase().includes(search))
+                    : pairedLines
 
-                return (
-                  <article className="patch-note-card" id={`patch-${section.id}`} key={section.id}>
-                    <header>
-                      <div>
-                        <p>{section.titleEn}</p>
-                        <h3>{section.titleKo}</h3>
+                  return (
+                    <article className="patch-note-card" id={`patch-${section.id}`} key={section.id}>
+                      <header>
+                        <div>
+                          <p>{section.titleEn}</p>
+                          <h3>{section.titleKo}</h3>
+                        </div>
+                        <span>{section.lineCount}개 항목</span>
+                      </header>
+
+                      <div className="patch-note-summary">
+                        <strong>빠른 요약</strong>
+                        <ul>
+                          {section.summaryKo.map((line) => (
+                            <li key={line}>{line}</li>
+                          ))}
+                        </ul>
                       </div>
-                      <span>{section.lineCount}개 항목</span>
-                    </header>
 
-                    <div className="patch-note-summary">
-                      <strong>빠른 요약</strong>
-                      <ul>
-                        {section.summaryKo.map((line) => (
-                          <li key={line}>{line}</li>
-                        ))}
-                      </ul>
-                    </div>
-
-                    <div className="patch-note-body">
-                      <h4>{search ? `검색된 번역 문장 ${shownKoLines.length}개` : '한글 번역'}</h4>
-                      {shownKoLines.length === 0 ? (
-                        <p className="patch-note-empty">이 목차 안에서는 검색어와 일치하는 번역 문장이 없습니다.</p>
-                      ) : (
-                        <ul>
-                          {shownKoLines.map((line, index) => (
-                            <li key={`${line}-${index}`}>{line}</li>
-                          ))}
-                        </ul>
-                      )}
-                    </div>
-
-                    {showPatchOriginal && (
-                      <details className="patch-note-original" open>
-                        <summary>영문 원문 보기</summary>
-                        <ul>
-                          {enLines.map((line, index) => (
-                            <li key={`${line}-${index}`}>{line}</li>
-                          ))}
-                        </ul>
-                      </details>
-                    )}
-                  </article>
-                )
-              })
-            )}
+                      <div className="patch-note-body">
+                        <h4>{search ? `검색된 번역 문장 ${shownLines.length}개` : '한글 번역'}</h4>
+                        {shownLines.length === 0 ? (
+                          <p className="patch-note-empty">이 목차 안에서는 검색어와 일치하는 번역 문장이 없습니다.</p>
+                        ) : (
+                          <ul>
+                            {shownLines.map((line) => (
+                              <li key={`${section.id}-${line.index}`}>
+                                <span>{line.ko}</span>
+                                <details className="patch-note-line-original" open={showPatchOriginal}>
+                                  <summary>원문</summary>
+                                  <p>{line.en}</p>
+                                </details>
+                              </li>
+                            ))}
+                          </ul>
+                        )}
+                      </div>
+                    </article>
+                  )
+                })
+              )}
+            </div>
           </div>
         </section>
       ) : (
