@@ -15,7 +15,7 @@
   min-height: 100vh;
   padding: 22px 18px 48px;
   position: relative;
-  width: min(980px, 100%);
+  width: min(1280px, 100%);
 }
 
 .app-shell::before {
@@ -122,13 +122,27 @@
   --tip-text: #f0dcc0;
 }
 
+.theme-roulette {
+  --theme-bg: #4f4f4f;
+  --theme-bg-2: #5b5b5b;
+  --panel: rgba(25, 24, 27, 0.96);
+  --panel-2: #302a25;
+  --border: #675a49;
+  --accent: #f4bd54;
+  --accent-2: #9a542e;
+  --tip-bg: rgba(244, 189, 84, 0.1);
+  --tip-border: rgba(244, 189, 84, 0.34);
+  --tip-text: #f4dfb6;
+}
+
 .theme-act-1,
 .theme-act-2,
 .theme-act-3,
 .theme-act-4,
 .theme-act-5,
 .theme-issues,
-.theme-patch-notes {
+.theme-patch-notes,
+.theme-roulette {
   --theme-bg: #505050;
   --theme-bg-2: #5a5a5a;
 }
@@ -1525,6 +1539,274 @@ h1 {
 .patch-note-empty {
   color: #d9cdbb;
   padding: 18px;
+}
+
+.roulette-page {
+  display: grid;
+  gap: 18px;
+}
+
+.roulette-board {
+  align-items: start;
+  display: grid;
+  gap: 18px;
+  grid-template-areas:
+    'stage log'
+    'control log';
+  grid-template-columns: minmax(360px, 0.92fr) minmax(320px, 0.68fr);
+}
+
+.roulette-stage,
+.roulette-control-card,
+.roulette-log-card,
+.roulette-editor-card {
+  background: linear-gradient(135deg, var(--panel), color-mix(in srgb, var(--panel-2) 84%, black));
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.2);
+}
+
+.roulette-stage {
+  align-items: center;
+  align-self: start;
+  display: grid;
+  grid-area: stage;
+  justify-items: center;
+  min-height: 560px;
+  overflow: hidden;
+  padding: 24px;
+  position: relative;
+}
+
+.roulette-pointer {
+  background: linear-gradient(180deg, #fff4c4, #e28d30);
+  border: 2px solid #3a2611;
+  clip-path: polygon(50% 100%, 0 0, 100% 0);
+  filter: drop-shadow(0 8px 14px rgba(0, 0, 0, 0.36));
+  height: 44px;
+  left: 50%;
+  position: absolute;
+  top: 14px;
+  transform: translateX(-50%);
+  width: 38px;
+  z-index: 3;
+}
+
+.roulette-wheel {
+  aspect-ratio: 1;
+  background: #f8f1df;
+  border: 10px solid #2a1c11;
+  border-radius: 50%;
+  box-shadow:
+    inset 0 0 0 2px rgba(255, 255, 255, 0.55),
+    0 24px 52px rgba(0, 0, 0, 0.35);
+  max-width: 560px;
+  transition-property: transform;
+  transition-timing-function: cubic-bezier(0.08, 0.78, 0.14, 1);
+  width: min(100%, 560px);
+}
+
+.roulette-svg {
+  display: block;
+  height: 100%;
+  overflow: visible;
+  width: 100%;
+}
+
+.roulette-slice {
+  stroke: rgba(255, 255, 255, 0.48);
+  stroke-width: 0.55;
+}
+
+.roulette-label {
+  fill: #151515;
+  font-size: 4.1px;
+  font-weight: 950;
+  paint-order: stroke;
+  pointer-events: none;
+  stroke: rgba(255, 255, 255, 0.74);
+  stroke-linejoin: round;
+  stroke-width: 0.9px;
+}
+
+.roulette-label.narrow {
+  font-size: 3.3px;
+}
+
+.roulette-label.tiny {
+  font-size: 2.7px;
+}
+
+.roulette-control-card,
+.roulette-log-card,
+.roulette-editor-card {
+  display: grid;
+  gap: 14px;
+  padding: 20px;
+}
+
+.roulette-control-card {
+  align-self: start;
+  grid-area: control;
+}
+
+.roulette-kicker {
+  color: var(--accent);
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  margin: 0 0 5px;
+  text-transform: uppercase;
+}
+
+.roulette-control-card h2,
+.roulette-editor-card h2 {
+  color: #fff7e8;
+  font-size: clamp(24px, 3vw, 36px);
+  line-height: 1.08;
+  margin: 0;
+}
+
+.roulette-control-card p:not(.roulette-kicker),
+.roulette-empty-log {
+  color: var(--muted);
+  margin: 0;
+}
+
+.roulette-spin-button {
+  background: linear-gradient(135deg, #ffd56b, #e57a2f);
+  border: 0;
+  border-radius: 16px;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.55),
+    0 12px 24px rgba(0, 0, 0, 0.28);
+  color: #201306;
+  font-size: 22px;
+  font-weight: 950;
+  padding: 15px 18px;
+}
+
+.roulette-log-card {
+  align-self: start;
+  grid-area: log;
+  max-height: none;
+  overflow: visible;
+}
+
+.roulette-log-header,
+.roulette-editor-header,
+.roulette-editor-actions {
+  align-items: center;
+  display: flex;
+  gap: 10px;
+  justify-content: space-between;
+}
+
+.roulette-log-header strong {
+  color: #fff7e8;
+}
+
+.roulette-log-card button,
+.roulette-editor-actions button,
+.roulette-build-table button {
+  background: rgba(0, 0, 0, 0.22);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  color: var(--accent);
+  font-size: 13px;
+  font-weight: 850;
+  padding: 7px 11px;
+}
+
+.roulette-log-card button:disabled {
+  cursor: default;
+  opacity: 0.42;
+}
+
+.roulette-log-card ol {
+  display: grid;
+  gap: 8px;
+  list-style: none;
+  margin: 0;
+  padding-left: 0;
+}
+
+.roulette-log-card li {
+  color: #f1e4d1;
+}
+
+.roulette-log-card li a {
+  color: #ffd56b;
+  font-size: 13px;
+  font-weight: 850;
+  margin-left: 8px;
+}
+
+.roulette-editor-header {
+  align-items: flex-start;
+}
+
+.roulette-editor-actions {
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.roulette-table-wrap {
+  overflow-x: auto;
+}
+
+.roulette-build-table {
+  border-collapse: collapse;
+  min-width: 760px;
+  width: 100%;
+}
+
+.roulette-build-table th,
+.roulette-build-table td {
+  border-bottom: 1px solid color-mix(in srgb, var(--border) 72%, transparent);
+  padding: 9px 8px;
+  text-align: left;
+}
+
+.roulette-build-table th {
+  color: var(--accent);
+  font-size: 13px;
+  font-weight: 900;
+}
+
+.roulette-build-table input {
+  background: #f4f0e8;
+  border: 1px solid #ffffff;
+  border-radius: 10px;
+  color: #19140f;
+  padding: 9px 10px;
+  width: 100%;
+}
+
+.roulette-build-table input[type='number'] {
+  min-width: 82px;
+}
+
+@media (max-width: 900px) {
+  .roulette-board {
+    grid-template-areas:
+      'stage'
+      'control'
+      'log';
+    grid-template-columns: 1fr;
+  }
+
+  .roulette-stage {
+    min-height: auto;
+  }
+
+  .roulette-log-card {
+    max-height: none;
+  }
+
+  .roulette-editor-header {
+    display: grid;
+  }
 }
 
 @media (max-width: 760px) {

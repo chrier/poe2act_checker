@@ -487,6 +487,36 @@ export const issueItems: IssueItem[] = [
     tags: ['Breach', '균열', 'Genesis Tree', 'Hiveborn', 'Womb Gift', 'Breach Stone', '엔드게임'],
   },
   {
+    id: 'youtube-ascendancy-changes-gemling-chronomancer',
+    issueNumber: 19,
+    category: '전직 클래스',
+    issueTab: '공식',
+    title: 'Gemling Legionnaire·Chronomancer 전직 밸런스 변경 공개',
+    quote:
+      '“200개가 넘는 스킬 젬에 추가 퀄리티가 부여되기 때문에 단순히 보기만 좋은 게 아닙니다.”',
+    summary:
+      'Path of Exile 공식 영상에서 고대의 귀환에 적용될 Gemling Legionnaire와 Chronomancer 전직 변경을 소개했습니다. Gemling Legionnaire는 고급 마석학을 통해 홈에 장착 가능한 스킬 젬 전반에 추가 퀄리티 옵션을 제공하고, Fireball의 원형 다중 투사체나 Explosive Shot의 추가 탄창처럼 스킬별 변화를 보여줍니다. 또한 장착된 스킬 젬을 기반으로 방어막을 강화하는 고결한 방어막이 추가됩니다. Chronomancer는 받는 적중 피해 일부를 지연시키는 위상 형상, 시간의 균열과의 지연 피해 제거 연계, 피할 수 없는 고뇌의 저장 피해 표시와 즉시 처치 효과, 시간 단절·시간 동결을 8포인트 전부 쓰지 않아도 함께 찍을 수 있는 변경을 받습니다.',
+    summaryMarkdown:
+      '## Gemling Legionnaire 변경\n' +
+      '- 고급 마석학으로 홈에 장착 가능한 모든 스킬에서 젬 퀄리티 기반 추가 옵션을 확인하고 활용할 수 있습니다.\n' +
+      '- 예시로 Fireball은 원형 10발 발사와 추가 폭발 연계, Explosive Shot은 탄창 추가로 연속 사격 편의성이 강조됩니다.\n' +
+      '- 고결한 방어막은 장착된 스킬 젬 각각을 기반으로 방어막을 강화해 부족했던 생존 보강 역할을 합니다.\n' +
+      '## Chronomancer 변경\n' +
+      '- 신규 주요 스킬 위상 형상은 받는 적중 피해를 감폭하고 일부를 지연시키는 방어 노드입니다.\n' +
+      '- 시간의 균열을 사용하면 위상 형상으로 지연된 피해를 제거해 큰 피격 이후 회복 연계를 만들 수 있습니다.\n' +
+      '- 피할 수 없는 고뇌는 저장 피해가 보스 체력바에 표시되고, 치명적인 수준이면 즉시 발동해 적을 제거합니다.\n' +
+      '## 빌드 영향 메모\n' +
+      '- 빠른 강물은 제거되지만 회생 속도 투자는 핵심 패시브 트리 쪽에 더 많이 배치됩니다.\n' +
+      '- 시간 단절과 시간 동결을 전직 포인트 8개를 모두 쓰지 않아도 함께 할당할 수 있게 됩니다.\n' +
+      '- 주문 시전 시 시간 조작으로 메아리/반복이 독립적으로 굴러 폭발적인 주문 연계가 가능해집니다.',
+    sourceName: 'Path of Exile YouTube',
+    sourceUrl: 'https://www.youtube.com/watch?v=JfyoJYCRNMo',
+    sourceType: 'youtube',
+    videoEmbedUrl: 'https://www.youtube.com/embed/JfyoJYCRNMo',
+    status: '확인 필요',
+    tags: ['Gemling Legionnaire', 'Chronomancer', '전직 클래스', '고대의 귀환', '젬 퀄리티', '위상 형상', '밸런스 변경'],
+  },
+  {
     id: 'issue-page-guide',
     issueNumber: 999,
     category: '운영 메모',

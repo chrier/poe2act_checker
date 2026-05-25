@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import './App.css'
+import { BuildRoulette } from './components/BuildRoulette'
 import { actGuides } from './data/acts'
 import { issueItems } from './data/issues'
 import { patchNotes050 } from './data/patchNotes050'
@@ -25,6 +26,40 @@ const WEAPON_TIP_PREFIX = '[무기 제작]'
 const POE2_LAUNCH_AT = new Date('2026-05-30T05:00:00+09:00').getTime()
 const DAUM_POE2_URL = 'https://pathofexile2.game.daum.net/main'
 const ISSUE_TABS: IssueTab[] = ['전체', '공식', '커뮤니티', '빌드', '도구', '이슈', '잡똥글']
+
+type ActiveView = 'checklist' | 'issues' | 'patchNotes' | 'roulette'
+
+type AppRoute = {
+  view: ActiveView
+  act: number
+}
+
+function parseHashRoute(hash = window.location.hash): AppRoute {
+  const fallbackAct = actGuides[0].act
+  const normalized = hash.replace(/^#\/?/, '').replace(/^\//, '').toLocaleLowerCase()
+  const actMatch = normalized.match(/^act-?(\d+)$/)
+
+  if (actMatch) {
+    const act = Number(actMatch[1])
+    const guide = actGuides.find((item) => item.act === act)
+    return { view: 'checklist', act: guide?.act ?? fallbackAct }
+  }
+
+  if (normalized === 'roulette') return { view: 'roulette', act: fallbackAct }
+  if (normalized === 'issues') return { view: 'issues', act: fallbackAct }
+  if (normalized === 'patch-notes' || normalized === 'patchnotes' || normalized === 'patch') {
+    return { view: 'patchNotes', act: fallbackAct }
+  }
+
+  return { view: 'checklist', act: fallbackAct }
+}
+
+function routeToHash(view: ActiveView, act: number) {
+  if (view === 'checklist') return `#/act-${act}`
+  if (view === 'roulette') return '#/roulette'
+  if (view === 'issues') return '#/issues'
+  return '#/patch-notes'
+}
 
 function readCompletedSteps() {
   const raw = window.localStorage.getItem(STORAGE_KEY)
@@ -154,8 +189,9 @@ function renderIssueSummary(issue: IssueItem) {
 }
 
 function App() {
-  const [activeAct, setActiveAct] = useState(actGuides[0].act)
-  const [activeView, setActiveView] = useState<'checklist' | 'issues' | 'patchNotes'>('checklist')
+  const initialRoute = parseHashRoute()
+  const [activeAct, setActiveAct] = useState(initialRoute.act)
+  const [activeView, setActiveView] = useState<ActiveView>(initialRoute.view)
   const [activeIssueTab, setActiveIssueTab] = useState<IssueTab>('전체')
   const [issueSearch, setIssueSearch] = useState('')
   const [patchNoteSearch, setPatchNoteSearch] = useState('')
@@ -213,6 +249,22 @@ function App() {
   )
 
   useEffect(() => {
+    const syncRoute = () => {
+      const nextRoute = parseHashRoute()
+      setActiveView(nextRoute.view)
+      setActiveAct(nextRoute.act)
+    }
+
+    window.addEventListener('hashchange', syncRoute)
+    window.addEventListener('popstate', syncRoute)
+
+    return () => {
+      window.removeEventListener('hashchange', syncRoute)
+      window.removeEventListener('popstate', syncRoute)
+    }
+  }, [])
+
+  useEffect(() => {
     window.localStorage.setItem(STORAGE_KEY, JSON.stringify([...completedSteps]))
   }, [completedSteps])
 
@@ -253,6 +305,16 @@ function App() {
     const timer = window.setInterval(() => setNow(Date.now()), 1000)
     return () => window.clearInterval(timer)
   }, [])
+
+  function navigateToRoute(view: ActiveView, act = activeAct) {
+    setActiveView(view)
+    setActiveAct(act)
+
+    const nextHash = routeToHash(view, act)
+    if (window.location.hash !== nextHash) {
+      window.history.pushState(null, '', nextHash)
+    }
+  }
 
   function togglePatchOriginal(lineKey: string) {
     setOpenPatchOriginals((previous) => {
@@ -359,7 +421,7 @@ function App() {
   }
 
   return (
-    <main className={`app-shell ${activeView === 'issues' ? 'theme-issues' : activeView === 'patchNotes' ? 'theme-patch-notes' : `theme-act-${currentGuide.act}`}`}>
+    <main className={`app-shell ${activeView === 'issues' ? 'theme-issues' : activeView === 'patchNotes' ? 'theme-patch-notes' : activeView === 'roulette' ? 'theme-roulette' : `theme-act-${currentGuide.act}`}`}>
       <header className="app-header">
         <div className="header-title-row">
           <div className="header-title-copy">
@@ -397,8 +459,7 @@ function App() {
             className={activeView === 'checklist' && guide.act === activeAct ? 'active' : ''}
             key={guide.act}
             onClick={() => {
-              setActiveView('checklist')
-              setActiveAct(guide.act)
+              navigateToRoute('checklist', guide.act)
             }}
             type="button"
           >
@@ -410,15 +471,22 @@ function App() {
             Daum POE2
           </a>
           <button
+            className={activeView === 'roulette' ? 'roulette-tab active' : 'roulette-tab'}
+            onClick={() => navigateToRoute('roulette')}
+            type="button"
+          >
+            빌드 룰렛
+          </button>
+          <button
             className={activeView === 'patchNotes' ? 'patch-note-tab active' : 'patch-note-tab'}
-            onClick={() => setActiveView('patchNotes')}
+            onClick={() => navigateToRoute('patchNotes')}
             type="button"
           >
             0.5.0 패치노트
           </button>
           <button
             className={activeView === 'issues' ? 'issue-tab active' : 'issue-tab'}
-            onClick={() => setActiveView('issues')}
+            onClick={() => navigateToRoute('issues')}
             type="button"
           >
             POE2 이슈
@@ -547,6 +615,8 @@ function App() {
         })}
       </section>
         </>
+      ) : activeView === 'roulette' ? (
+        <BuildRoulette />
       ) : activeView === 'patchNotes' ? (
         <section className="patch-note-page" aria-label="POE2 0.5.0 패치노트 한글 번역">
           <div className="patch-note-hero">
